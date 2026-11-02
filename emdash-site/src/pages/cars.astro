@@ -1,0 +1,29 @@
+---
+import { Image } from "emdash/ui";
+import Base from "../layouts/Base.astro";
+import PageIntro from "../components/PageIntro.astro";
+import { entries, pageContent, interfaceCopy } from "../lib/cms";
+
+const [page, copy, cars] = await Promise.all([
+	pageContent("cars"), interfaceCopy(), entries("cars", { limit: 100, orderBy: { number: "desc" } }),
+]);
+---
+
+<Base title={page?.title || "Cars I've Owned"} description={page?.description}>
+	<main class="min-h-screen px-4 pb-16 pt-20 sm:px-6 sm:pt-28 lg:px-8">
+		<div class="container max-w-6xl space-y-10">
+			<PageIntro section={page?.section || "Cars"} title={page?.title || copy.cars || "Cars I've Owned"} description={page?.description} body={page?.body} />
+			<ol class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+				{cars.map((item) => <li class="section-shell relative min-h-64 overflow-hidden p-4">
+					<div class="relative flex h-full flex-col gap-5">
+						<div class="relative aspect-[4/3] overflow-hidden rounded-xl bg-[var(--sand-2)]">
+							{item.data.image && <Image image={item.data.image} alt={item.data.image.alt || item.data.model} class="h-full w-full object-cover" style={{ objectPosition: item.data.image_position || "center" }} />}
+							<span class="absolute left-3 top-3 rounded-full bg-black/55 px-3 py-1 text-xs font-semibold tracking-widest text-white backdrop-blur-sm">{item.data.number}</span>
+						</div>
+						<div><p class="text-sm font-medium uppercase tracking-[0.16em] text-[var(--muted)]">{item.data.make}</p><h2 class="mt-1 text-3xl font-bold text-[var(--ink)]">{item.data.model}</h2>{item.data.years && <p class="mt-2 text-sm text-[var(--muted)]">{item.data.years}</p>}</div>
+					</div>
+				</li>)}
+			</ol>
+		</div>
+	</main>
+</Base>

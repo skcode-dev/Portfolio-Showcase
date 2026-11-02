@@ -1,0 +1,165 @@
+---
+import { PortableText } from "emdash/ui";
+import { FaGithub } from "react-icons/fa";
+import { FaInstagram, FaLinkedin, FaThreads, FaXTwitter } from "react-icons/fa6";
+import Base from "../layouts/Base.astro";
+import ProfileAvatar from "../components/ProfileAvatar.astro";
+import CareerSkillIcon from "../components/CareerSkillIcon";
+import { entries, pageContent, profileContent, interfaceCopy } from "../lib/cms";
+import { usedTechnologyCategories } from "../lib/tech-categories";
+import seededCareerSkills from "../data/careerSkills.json";
+
+const [page, profile, copy, projects] = await Promise.all([
+	pageContent("home"),
+	profileContent(),
+	interfaceCopy(),
+	entries("projects", { limit: 100 }),
+]);
+const milestones = profile?.career_milestones ?? [];
+const automotive = profile?.automotive_experience ?? [];
+const profileTechCategories = Array.isArray(profile?.tech_categories) ? profile.tech_categories : [];
+const categories = usedTechnologyCategories(profileTechCategories, projects);
+const careerSkills = profileTechCategories.find((category: any) => category.id === "career-skills")?.skill_groups || seededCareerSkills;
+---
+
+<Base title={page?.title || profile?.name || "skCode"} description={page?.description || profile?.bio}>
+	<div class="min-h-screen pb-16 pt-16 sm:pt-20">
+		<div class="container max-w-5xl space-y-5 px-3 sm:space-y-8 sm:px-4">
+			<section class="section-shell p-3 sm:p-6">
+				<div class="flex items-center gap-3 min-[375px]:gap-4 sm:gap-6">
+					<ProfileAvatar name={profile?.name || "skCode"} />
+					<div class="min-w-0 flex-1 space-y-2 sm:space-y-3">
+						<h1 class="text-2xl font-semibold text-[var(--ink)] min-[375px]:text-3xl sm:text-4xl">{profile?.name || "skCode"}</h1>
+						<div class="profile-socials flex flex-nowrap">
+							{Object.entries(profile?.social ?? {}).map(([platform, url]) =>
+								<a href={String(url)} target="_blank" rel="noopener noreferrer" aria-label={platform} class="profile-social link-ghost inline-flex shrink-0 items-center justify-center rounded-full border border-[var(--line)] bg-[color-mix(in_srgb,_var(--sand-2)_60%,_transparent)]">
+									{platform === "github" ? <FaGithub aria-hidden="true" /> : platform === "instagram" ? <FaInstagram aria-hidden="true" /> : platform === "threads" ? <FaThreads aria-hidden="true" /> : platform}
+								</a>
+							)}
+							<button type="button" disabled aria-label="LinkedIn (coming soon)" title="Coming soon" class="future-social profile-social inline-flex shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-dashed border-[var(--line)] bg-transparent" style="opacity:.48;filter:grayscale(1)"><FaLinkedin aria-hidden="true" /></button>
+							<button type="button" disabled aria-label="note (coming soon)" title="Coming soon" class="future-social profile-social inline-flex shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-dashed border-[var(--line)] bg-transparent" style="opacity:.48;filter:grayscale(1)"><span aria-hidden="true">note</span></button>
+							<button type="button" disabled aria-label="X (coming soon)" title="Coming soon" class="future-social profile-social inline-flex shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-dashed border-[var(--line)] bg-transparent" style="opacity:.48;filter:grayscale(1)"><FaXTwitter aria-hidden="true" /></button>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="section-shell space-y-3 p-3 sm:p-6">
+				<div class="flex items-center gap-2"><span class="text-[var(--accent)]" aria-hidden="true">◉</span><h2 class="text-xl font-semibold text-[var(--ink)] sm:text-2xl">{copy.aboutMe || "About Me"}</h2></div>
+				<p class="leading-relaxed text-[var(--muted)]">{profile?.bio}</p>
+				{page?.body && <div class="prose max-w-none text-[var(--muted)]"><PortableText value={page.body} /></div>}
+			</section>
+
+			<section id="career-journey" class="section-shell space-y-4 p-3 sm:p-6">
+				<div class="flex items-center gap-2"><span class="text-[var(--accent)]" aria-hidden="true">▤</span><h2 class="text-xl font-semibold text-[var(--ink)] sm:text-2xl">{copy.careerJourney || "Career Journey"}</h2></div>
+				<p class="text-sm text-[var(--muted)] sm:text-base">{copy.careerIntro || "From automotive development to web application development"}</p>
+				<div class="career-timeline relative space-y-4 pl-5 sm:space-y-5 sm:pl-8">
+					<span class="career-timeline-progress" aria-hidden="true"></span>
+					{milestones.map((milestone: any, index: number) => (
+						<article class="project-card relative p-3 sm:p-5">
+							<span class="absolute -left-[1.72rem] top-5 h-4 w-4 rounded-full border-[3px] border-[var(--paper)] bg-[var(--accent)] sm:-left-[2.3rem]" aria-hidden="true"></span>
+							<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
+								<span class="text-xs font-bold tracking-[0.12em] text-[var(--accent)]">{milestone.period}</span>
+								<span class="text-xs font-semibold text-[var(--muted)]">{milestone.marker} / {String(milestones.length).padStart(2, "0")}</span>
+							</div>
+							{index < 2 ? <details class="career-details">
+								<summary class="career-summary group">
+									<span class="career-summary-heading"><span class="career-title">{milestone.title}</span><span class="career-toggle-pill"><span class="career-open-label">{index === 0 ? copy.exploreExperience || "Explore experience" : copy.exploreSkills || "Explore skills"}</span><span class="career-close-label">{index === 0 ? "Hide experience" : "Hide skills"}</span><svg class="career-chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg></span></span>
+									<span class="career-description">{milestone.description}</span>
+								</summary>
+								{index === 0 ? <div class="career-expanded-content">{automotive.map((area: any, areaIndex: number) => <article class="grid grid-cols-[2rem_1fr] gap-3 border-b border-[var(--line)]/70 py-3 sm:grid-cols-[2rem_12rem_1fr]"><span class="text-xs font-bold tabular-nums text-[var(--accent)]">{String(areaIndex + 1).padStart(2, "0")}</span><div><h4 class="font-semibold text-[var(--ink)]">{area.area}</h4><span class="text-[10px] font-medium uppercase tracking-[0.12em] text-[var(--muted)]">{area.category}</span></div><ul class="col-start-2 list-disc space-y-0.5 pl-4 text-sm leading-relaxed text-[var(--muted)] marker:text-[var(--accent)] sm:col-start-auto">{area.items.map((item: string) => <li>{item}</li>)}</ul></article>)}</div> : <section class="career-expanded-content career-skills" aria-label="Web Engineering Skills"><h4 class="career-skills-title">Web Engineering Skills</h4><div class="career-skill-groups">{careerSkills.map((group: any) => <section class="career-skill-group" data-career-skill-group><h5>{group.name}</h5><ul>{group.skills.map((skill: any) => <li><span class="career-skill-chip" data-skill-name={skill.name} data-skill-icon={skill.icon || ""} data-skill-mark={skill.mark || ""} data-skill-color={skill.color || "#4258ff"}><CareerSkillIcon name={skill.name} icon={skill.icon} mark={skill.mark} color={skill.color || "#4258ff"} />{skill.name}</span></li>)}</ul></section>)}</div></section>}
+							</details> : <><h3 class="mb-1 text-lg font-semibold text-[var(--ink)] sm:text-xl">{milestone.title}</h3><p class="text-sm leading-relaxed text-[var(--muted)]">{milestone.description}</p></>}
+						</article>
+					))}
+				</div>
+			</section>
+
+			<section class="section-shell space-y-4 p-3 sm:p-6">
+				<div class="flex items-center gap-2"><span class="text-[var(--accent)]" aria-hidden="true">◇</span><h2 class="text-xl font-semibold text-[var(--ink)] sm:text-2xl">{copy.certifications || "Certifications"}</h2></div>
+				<div class="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+					{profile?.certifications?.map((cert: any) => <article class="project-card p-3 sm:p-4"><h3 class="mb-1 text-base font-semibold text-[var(--ink)] sm:text-lg">{cert.name}</h3><p class="text-xs text-[var(--muted)] sm:text-sm">{cert.issuer}{cert.year ? ` · ${cert.year}` : ""}</p></article>)}
+				</div>
+			</section>
+		</div>
+	</div>
+</Base>
+
+<style>
+	.career-summary { display: block; cursor: pointer; list-style: none; }
+	.career-summary::-webkit-details-marker { display: none; }
+	.career-summary-heading { display: inline-flex; min-height: 2.5rem; max-width: 100%; flex-wrap: wrap; align-items: center; gap: .25rem .75rem; text-align: left; }
+	.career-title { color: var(--ink); font-family: var(--font-geist-sans), system-ui, sans-serif; font-size: 1.125rem; font-weight: 600; line-height: 1.5; }
+	.career-summary:hover .career-title { color: var(--accent); }
+	.career-toggle-pill { display: inline-flex; align-items: center; gap: .375rem; border: 1px solid var(--line); border-radius: 9999px; background: var(--sand-1); padding: .25rem .625rem; color: var(--muted); font-size: .75rem; font-weight: 600; line-height: 1.25rem; transition: border-color .2s, color .2s; }
+	.career-summary:hover .career-toggle-pill { border-color: var(--accent); color: var(--ink); }
+	.career-close-label, .career-details[open] .career-open-label { display: none; }
+	.career-details[open] .career-close-label { display: inline; }
+	.career-chevron { width: .875rem; height: .875rem; color: var(--accent); transition: transform .2s; }
+	.career-details[open] .career-chevron { transform: rotate(180deg); }
+	.career-description { display: block; margin-top: .25rem; color: var(--muted); font-size: .875rem; line-height: 1.625; }
+	.career-expanded-content { margin-top: 1rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+	.career-summary:focus-visible { border-radius: .375rem; outline: 2px solid var(--accent); outline-offset: 4px; }
+	.career-skills { display: block; }
+	.career-skills-title { margin-bottom: .5rem; color: var(--accent); font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+	.career-skill-groups { display: grid; grid-template-columns: minmax(0, 1fr); gap: .75rem; }
+	.career-skill-group { min-width: 0; border: 1px solid var(--line); border-radius: .75rem; background: color-mix(in srgb, var(--sand-1) 55%, transparent); padding: .75rem; }
+	.career-skill-group h5 { color: var(--muted); font-size: .625rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+	.career-skill-group ul { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
+	.career-skill-group li { list-style: none; }
+	.career-skill-chip { display: inline-flex; min-height: 2rem; align-items: center; gap: .375rem; border: 1px solid var(--line); border-radius: .5rem; background: var(--paper); padding: .25rem .5rem; color: var(--ink); font-size: .6875rem; line-height: 1; }
+	.career-skill-icon { width: 1rem; height: 1rem; flex: 0 0 auto; }
+	.career-skill-mark { display: inline-grid; min-width: 1rem; height: 1rem; flex: 0 0 auto; place-items: center; border-radius: .125rem; padding: 0 .125rem; color: #fff; font-size: .5rem; font-weight: 700; }
+	.career-timeline-progress { position: absolute; top: .75rem; bottom: .75rem; left: 2px; width: 2px; border-radius: 9999px; }
+	.career-timeline-progress { background: linear-gradient(to bottom, var(--accent), var(--accent-2)); transform: scaleY(0); transform-origin: top; will-change: transform; }
+	.future-social span { font-size: .58rem; font-weight: 800; letter-spacing: -.04em; }
+	.profile-socials { gap: 4px; }
+	.profile-social { width: 28px; height: 28px; }
+	.profile-social svg { width: 16px; height: 16px; }
+	.future-social span { font-size: .54rem; }
+	.future-social { border-style: dashed; }
+	@media (min-width: 360px) {
+		.profile-socials { gap: 6px; }
+		.profile-social { width: 32px; height: 32px; }
+		.profile-social svg { width: 18px; height: 18px; }
+		.future-social span { font-size: .62rem; }
+	}
+	@media (min-width: 640px) {
+		.profile-socials { gap: 12px; }
+		.profile-social { width: 44px; height: 44px; }
+		.profile-social svg { width: 24px; height: 24px; }
+		.future-social span { font-size: .7rem; }
+	}
+	@media (min-width: 640px) { .career-title { font-size: 1.25rem; } }
+	@media (min-width: 640px) { .career-timeline-progress { left: 7px; } }
+	@media (min-width: 640px) { .career-skill-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); } .career-skill-group { padding: 1rem; } }
+	@media (min-width: 1280px) { .career-skill-groups { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+</style>
+
+<script>
+	const careerSection = document.querySelector<HTMLElement>("#career-journey");
+	const careerLine = careerSection?.querySelector<HTMLElement>(".career-timeline-progress");
+	if (careerSection && careerLine) {
+		let targetProgress = 0;
+		let currentProgress = 0;
+		let frame = 0;
+		const updateTarget = () => {
+			const rect = careerSection.getBoundingClientRect();
+			const viewportHeight = window.innerHeight;
+			const distance = rect.height + viewportHeight * 0.4;
+			targetProgress = Math.max(0, Math.min(1, (viewportHeight * 0.75 - rect.top) / distance));
+			if (!frame) frame = requestAnimationFrame(animate);
+		};
+		const animate = () => {
+			const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+			currentProgress = reduceMotion ? targetProgress : currentProgress + (targetProgress - currentProgress) * 0.12;
+			if (Math.abs(targetProgress - currentProgress) < 0.001) currentProgress = targetProgress;
+			careerLine.style.transform = `scaleY(${currentProgress})`;
+			if (currentProgress !== targetProgress) frame = requestAnimationFrame(animate);
+			else frame = 0;
+		};
+		window.addEventListener("scroll", updateTarget, { passive: true });
+		window.addEventListener("resize", updateTarget);
+		new ResizeObserver(updateTarget).observe(careerSection);
+		updateTarget();
+	}
+</script>

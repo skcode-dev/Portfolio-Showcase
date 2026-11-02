@@ -1,0 +1,204 @@
+---
+import { Image } from "emdash/ui";
+import Base from "../layouts/Base.astro";
+import TechIcon from "../components/TechIcon";
+import { entries, pageContent, profileContent } from "../lib/cms";
+import { usedTechnologyCategories } from "../lib/tech-categories";
+
+const [page, projects, profile] = await Promise.all([
+	pageContent("portfolio"),
+	entries("projects", { limit: 100, orderBy: { display_order: "asc" } }),
+	profileContent(),
+]);
+const categories = usedTechnologyCategories(Array.isArray(profile?.tech_categories) ? profile.tech_categories : [], projects);
+const projectsByDate = projects;
+const iconPaths: Record<string, string> = {
+	frontend: "M4 5h16v14H4z M8 9l-2 3 2 3 M16 9l2 3-2 3 M14 8l-4 8",
+	backend: "M4 6h16v12H4z M8 10h.01 M12 10h.01 M16 10h.01 M8 14h8",
+	language: "M12 3l9 5-9 5-9-5 9-5z M3 12l9 5 9-5 M3 16l9 5 9-5",
+	database: "M12 3c5 0 8 1.3 8 3s-3 3-8 3-8-1.3-8-3 3-3 8-3z M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6 M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3",
+	devops: "M12 3v3 M12 18v3 M3 12h3 M18 12h3 M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1m0-12.8-2.1 2.1m-8.6 8.6-2.1 2.1 M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z",
+	ui: "M5 4h14v16H5z M8 8h8 M8 12h5 M8 16h8",
+	visualization: "M4 19V5m0 14h16M7 15l4-5 3 2 5-7",
+	mobile: "M7 3h10v18H7z M11 18h2",
+	ai: "M12 3a4 4 0 0 0-4 4v1a4 4 0 0 0 0 8v1a4 4 0 0 0 8 0v-1a4 4 0 0 0 0-8V7a4 4 0 0 0-4-4z M8 11h.01 M16 11h.01 M9 15h6",
+};
+const dateLabel = (value: string | Date | undefined) => {
+	if (!value) return "";
+	const date = new Date(value);
+	return Number.isNaN(date.getTime()) ? "" : date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }).toUpperCase();
+};
+const projectSummary = (description: string) => {
+	const firstParagraph = description.split(/\n\s*\n/)[0].replace(/\s+/g, " ").trim();
+	const firstSentence = firstParagraph.match(/^.*?[.!?](?:\s|$)/)?.[0]?.trim();
+	const summary = firstSentence && firstSentence.length <= 150 ? firstSentence : firstParagraph;
+	return summary.length > 150 ? `${summary.slice(0, 147).trimEnd()}…` : summary;
+};
+---
+
+<Base title={page?.title || "Projects"} description={page?.description}>
+	<main class="min-h-screen px-4 pb-16 pt-20 sm:px-6 sm:pt-28 lg:px-8">
+		<div class="container mx-auto w-full min-w-0 max-w-6xl space-y-8 md:space-y-10">
+			<section class="section-shell portfolio-filter" aria-label="Filter projects">
+				<div class="filter-category-wrap">
+					<button class="filter-scroll filter-scroll-left" type="button" aria-label="Scroll categories left">‹</button>
+					<div class="filter-category-viewport">
+					<div class="tab-rail portfolio-category-rail" role="tablist" aria-label="Technology categories">
+						{categories.map((category: any, index: number) => <button type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} class:list={["pill-tab", "portfolio-category", { "is-active": index === 0 }]} data-category={category.id}>
+							<svg class="category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={iconPaths[category.id] || iconPaths.frontend} /></svg>
+							<span>{category.name}</span>
+						</button>)}
+					</div>
+					</div>
+					<button class="filter-scroll filter-scroll-right" type="button" aria-label="Scroll categories right">›</button>
+				</div>
+				<div class="portfolio-tech-grid">
+					{categories.map((category: any, index: number) => <div class="portfolio-tech-group" data-tech-group={category.id} hidden={index !== 0}>
+						{(category.techs || []).map((tech: string) => <button type="button" class="tech-chip portfolio-tech" data-tech={tech} aria-pressed="false"><TechIcon tech={tech} className="h-4 w-4" /><span>{tech}</span></button>)}
+					</div>)}
+				</div>
+				<div class="portfolio-selected" hidden>
+					<div class="portfolio-selected-list" aria-live="polite"></div>
+					<button class="portfolio-clear" type="button">Clear All</button>
+				</div>
+			</section>
+
+			<section class="grid grid-cols-1 gap-6 md:gap-7 md:grid-cols-2 lg:grid-cols-3" aria-label="Projects">
+				{projectsByDate.length ? projectsByDate.map((project) => <article class="project-card portfolio-project" data-project-technologies={JSON.stringify(project.data.technologies || [])}>
+					<a href={`/project/${project.data.legacy_id}`} class="portfolio-project-link">
+						<div class="project-meta portfolio-project-meta"><span class="portfolio-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M8 3v3m8-3v3M4 9h16M5 5h14v15H5z" /></svg>{dateLabel(project.data.project_date)}</span></div>
+						<div class="portfolio-image">
+							{project.data.image ? <Image image={project.data.image} alt={project.data.image.alt || project.data.title} class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" /> : <img src="/images/default-project.png" alt={project.data.title} loading="lazy" />}
+						</div>
+						<div class="portfolio-project-copy">
+							<h2 class="portfolio-project-title">{project.data.title}</h2>
+							<p class="portfolio-project-description">{projectSummary(project.data.description || "")}</p>
+						</div>
+						<div class="portfolio-project-tech">{(project.data.technologies || []).map((tech: string) => <span class="portfolio-project-tech-chip"><TechIcon tech={tech} className="h-3.5 w-3.5" />{tech}</span>)}</div>
+					</a>
+				</article>) : <p class="section-shell p-6 text-[var(--muted)]">No projects yet.</p>}
+				<p class="portfolio-empty" hidden>No projects found matching the selected categories.</p>
+			</section>
+		</div>
+	</main>
+</Base>
+
+<style>
+	.portfolio-filter { padding: 1.25rem 1.5rem; }
+	.filter-category-wrap { position:relative; }
+	.filter-category-viewport { overflow-x: auto; scrollbar-width: none; scroll-behavior:smooth; }
+	.filter-category-viewport::-webkit-scrollbar { display: none; }
+	.portfolio-category-rail { display: inline-flex; white-space: nowrap; margin-bottom: 1rem; }
+	.filter-scroll { display:none; }
+	.category-icon { width: 1rem; height: 1rem; flex: 0 0 auto; }
+	.portfolio-tech-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; }
+	.portfolio-tech-group { display: contents; }
+	.portfolio-tech-group[hidden] { display: none; }
+	.portfolio-tech { display: flex; align-items: center; gap: .5rem; text-align: left; }
+	.tech-mark { display: inline-grid; place-items: center; width: 1rem; height: 1rem; border-radius: 50%; background: color-mix(in srgb, var(--accent) 16%, var(--paper)); color: var(--accent); font-size: .65rem; font-weight: 800; flex: 0 0 auto; }
+	.portfolio-selected { display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-top:1rem; padding: .7rem; border:1px solid var(--line); border-radius:.75rem; background:color-mix(in srgb,var(--sand-2) 55%,transparent); }
+	.portfolio-selected[hidden] { display:none; }
+	.portfolio-selected-list { display:flex; flex-wrap:wrap; gap:.5rem; }
+	.portfolio-selected-tag { padding:.3rem .6rem; border-radius:.5rem; border:1px solid var(--line); background:color-mix(in srgb,var(--accent) 12%,transparent); font-size:.8rem; }
+	.portfolio-clear { font-size:.875rem; font-weight:700; white-space:nowrap; }
+	.portfolio-project { display:flex; flex-direction:column; }
+	.portfolio-project[hidden] { display:none; }
+	.portfolio-project-link { display:flex; flex:1; flex-direction:column; color:inherit; text-decoration:none; }
+	.portfolio-project-meta { display:flex; justify-content:flex-end; margin:0 0 .75rem; }
+	.portfolio-date { display:flex; align-items:center; gap:.25rem; }
+	.portfolio-date svg { width:1rem; height:1rem; }
+	.portfolio-image { position:relative; height:12rem; margin-bottom:.75rem; overflow:hidden; border:1px solid var(--line); border-radius:.5rem; }
+	.portfolio-image img { width:100%; height:100%; object-fit:cover; transition:transform .3s; }
+	.portfolio-project:hover .portfolio-image img { transform:scale(1.05); }
+	.portfolio-project-copy { flex:1; }
+	.portfolio-project-title { margin-bottom:.25rem; font-size:1.25rem; font-weight:700; }
+	.portfolio-project-description { display:-webkit-box; overflow:hidden; -webkit-box-orient:vertical; -webkit-line-clamp:2; color:var(--muted); font-size:.875rem; }
+	.portfolio-project-tech { display:flex; flex-wrap:wrap; gap:.5rem; max-height:5rem; overflow:auto; margin-top:auto; padding-top:.75rem; }
+	.portfolio-project-tech-chip { display:inline-flex; align-items:center; gap:.4rem; padding:.25rem .75rem; border:1px solid var(--line); border-radius:9999px; background:color-mix(in srgb,var(--sand-2) 60%,transparent); font-size:.75rem; font-weight:600; }
+	.portfolio-empty { grid-column:1/-1; padding:3rem 1rem; text-align:center; color:var(--muted); font-size:1.125rem; }
+	.portfolio-empty[hidden] { display:none; }
+	@media (min-width: 640px) { .portfolio-tech-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+	@media (min-width: 768px) { .portfolio-tech-grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+	@media (max-width: 640px) {
+		.portfolio-filter { padding:.75rem; }
+		.filter-category-viewport { padding-inline:1.4rem; }
+		.portfolio-category-rail { gap:.25rem; margin-bottom:.65rem; }
+		.portfolio-category { gap:.35rem; padding:.38rem .65rem; font-size:.8rem; }
+		.category-icon { width:.875rem; height:.875rem; }
+		.portfolio-tech-grid { gap:.4rem; }
+		.portfolio-tech { gap:.35rem; padding:.42rem .55rem; font-size:.82rem; }
+		.portfolio-tech svg, .portfolio-tech .tech-mark { width:.875rem; height:.875rem; }
+		.filter-scroll { position:absolute; top:0; bottom:.65rem; z-index:2; display:grid; width:1.4rem; height:auto; place-items:center; padding:0; border:0; border-radius:0; background:var(--paper); box-shadow:none; color:var(--accent); font-size:1.4rem; font-weight:500; line-height:1; opacity:0; pointer-events:none; transition:opacity .16s ease; }
+		.filter-scroll.is-visible { opacity:1; pointer-events:auto; }
+		.filter-scroll:focus-visible { outline:2px solid var(--accent); outline-offset:-2px; }
+		.filter-scroll-left { left:0; background:linear-gradient(90deg,var(--paper) 72%,color-mix(in srgb,var(--paper) 0%,transparent)); }
+		.filter-scroll-right { right:0; background:linear-gradient(270deg,var(--paper) 72%,color-mix(in srgb,var(--paper) 0%,transparent)); }
+	}
+</style>
+
+<script>
+	const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>(".portfolio-category"));
+	const categoryViewport = document.querySelector<HTMLElement>(".filter-category-viewport");
+	const groups = Array.from(document.querySelectorAll<HTMLElement>("[data-tech-group]"));
+	const selectedPanel = document.querySelector<HTMLElement>(".portfolio-selected");
+	const selectedList = document.querySelector<HTMLElement>(".portfolio-selected-list");
+	const cards = Array.from(document.querySelectorAll<HTMLElement>(".portfolio-project"));
+	const empty = document.querySelector<HTMLElement>(".portfolio-empty");
+	const scrollLeft = document.querySelector<HTMLButtonElement>(".filter-scroll-left");
+	const scrollRight = document.querySelector<HTMLButtonElement>(".filter-scroll-right");
+	const selected = new Set<string>();
+	let activeCategory = tabs[0]?.dataset.category || "";
+	const updateScrollControls = () => {
+		if (!categoryViewport) return;
+		const hasOverflow = categoryViewport.scrollWidth > categoryViewport.clientWidth + 1;
+		const canScrollLeft = hasOverflow && categoryViewport.scrollLeft > 1;
+		const canScrollRight = hasOverflow && categoryViewport.scrollLeft + categoryViewport.clientWidth < categoryViewport.scrollWidth - 1;
+		scrollLeft?.classList.toggle("is-visible", canScrollLeft);
+		scrollRight?.classList.toggle("is-visible", canScrollRight);
+		if (scrollLeft) scrollLeft.disabled = !canScrollLeft;
+		if (scrollRight) scrollRight.disabled = !canScrollRight;
+	};
+	const render = () => {
+		for (const tab of tabs) {
+			const active = tab.dataset.category === activeCategory;
+			tab.classList.toggle("is-active", active);
+			tab.setAttribute("aria-selected", String(active));
+		}
+		for (const group of groups) group.hidden = group.dataset.techGroup !== activeCategory;
+		for (const button of document.querySelectorAll<HTMLButtonElement>(".portfolio-tech")) {
+			const active = selected.has(button.dataset.tech || "");
+			button.setAttribute("aria-pressed", String(active));
+			button.classList.toggle("is-active", active);
+		}
+		if (selectedList && selectedPanel) {
+			selectedList.replaceChildren(...Array.from(selected, (tech) => {
+				const tag = document.createElement("span"); tag.className = "portfolio-selected-tag"; tag.textContent = tech; return tag;
+			}));
+			selectedPanel.hidden = selected.size === 0;
+		}
+		let shown = 0;
+		for (const card of cards) {
+			const technologies = JSON.parse(card.dataset.projectTechnologies || "[]") as string[];
+			card.hidden = selected.size > 0 && !Array.from(selected).some((tech) => technologies.some((item) => item.toLowerCase() === tech.toLowerCase()));
+			if (!card.hidden) shown++;
+		}
+		if (empty) empty.hidden = shown !== 0;
+		const url = new URL(window.location.href);
+		if (selected.size) url.searchParams.set("tech", Array.from(selected).join(",")); else url.searchParams.delete("tech");
+		window.history.replaceState({}, "", url);
+	};
+	for (const tab of tabs) tab.addEventListener("click", () => { activeCategory = tab.dataset.category || ""; render(); });
+	for (const button of document.querySelectorAll<HTMLButtonElement>(".portfolio-tech")) button.addEventListener("click", () => {
+		const tech = button.dataset.tech || "";
+		if (selected.has(tech)) selected.delete(tech); else selected.add(tech);
+		render();
+	});
+	document.querySelector(".portfolio-clear")?.addEventListener("click", () => { selected.clear(); render(); });
+	scrollLeft?.addEventListener("click", () => categoryViewport?.scrollBy({ left: -180, behavior: "smooth" }));
+	scrollRight?.addEventListener("click", () => categoryViewport?.scrollBy({ left: 180, behavior: "smooth" }));
+	categoryViewport?.addEventListener("scroll", updateScrollControls, { passive: true });
+	window.addEventListener("resize", updateScrollControls);
+	for (const tech of new URLSearchParams(window.location.search).get("tech")?.split(",") || []) if (tech) selected.add(tech);
+	render();
+	requestAnimationFrame(updateScrollControls);
+</script>

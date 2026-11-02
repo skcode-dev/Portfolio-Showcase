@@ -1,0 +1,65 @@
+/*
+  theme.css -- your theme overrides. This is the file to edit to
+  retheme the site.
+
+  Every design token lives in src/styles/tokens.css (colors, type
+  scale, spacing, layout) with its default value. Override any of them
+  here: declarations in this file are unlayered, so they always beat
+  the @layer base defaults in tokens.css.
+
+  Colors are defined with light-dark(). Overriding with a plain color
+  changes light and dark mode at once; use light-dark(<light>, <dark>)
+  to set different values per mode.
+
+  The serif display face (--font-heading) is loaded in astro.config.mjs.
+  Swap the loaded font there; use overrides here for system fonts or to
+  change the quiet system-sans body face (--font-body).
+
+  Example:
+
+  :root {
+    --color-brand: light-dark(#0f766e, #2dd4bf);
+    --font-body: "Avenir Next", system-ui, sans-serif;
+    --font-size-4xl: 4rem;
+  }
+*/
+
+@font-face {
+	font-family: "Space Grotesk";
+	src: url("/fonts/space-grotesk.woff2") format("woff2");
+	font-style: normal;
+	font-weight: 300 700;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Bangers";
+	src: url("/fonts/bangers.woff2") format("woff2");
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+}
+
+:root {
+	--font-display: "Space Grotesk", system-ui, sans-serif;
+	--font-comic: "Bangers", "Space Grotesk", system-ui, sans-serif;
+}
+
+.nav-circle.theme-toggle-button {
+	border-color: #d84c2a;
+	background: #fff3cf;
+	color: #d84c2a;
+	box-shadow: 0 0 0 3px rgba(216, 76, 42, 0.15), 0 4px 14px rgba(132, 78, 30, 0.16);
+}
+
+.nav-circle.theme-toggle-button svg {
+	width: 16px;
+	height: 16px;
+}
+
+.nav-circle.theme-toggle-button.is-dark {
+	border-color: #58d3a2;
+	background: #101827;
+	color: #b7f3dc;
+	box-shadow: 0 0 0 3px rgba(88, 211, 162, 0.2), 0 4px 14px rgba(0, 0, 0, 0.3);
+}

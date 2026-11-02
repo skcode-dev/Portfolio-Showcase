@@ -1,0 +1,41 @@
+---
+interface Props {
+	name: string;
+}
+
+const { name } = Astro.props;
+---
+
+<div class="profile-avatar-shell relative h-[72px] w-[72px] shrink-0 rounded-full min-[375px]:h-20 min-[375px]:w-20 sm:h-[104px] sm:w-[104px] md:h-[136px] md:w-[136px]">
+	<span class="profile-avatar-halo" aria-hidden="true"></span>
+	<span class="profile-avatar-orbit" aria-hidden="true"><span></span></span>
+	<span class="profile-avatar-spark profile-avatar-spark-one" aria-hidden="true"></span>
+	<span class="profile-avatar-spark profile-avatar-spark-two" aria-hidden="true"></span>
+	<div class="absolute inset-[4px] z-10 overflow-hidden rounded-full border-2 border-[var(--paper)] shadow-[0_8px_24px_rgba(11,29,58,0.22)] ring-1 ring-[var(--accent-2)]/70">
+		<div class="profile-avatar-stage h-full w-full overflow-hidden rounded-full">
+			<model-viewer
+				src="/models/character-laptop.glb"
+				alt={`${name} 3D profile avatar`}
+				camera-controls
+				auto-rotate
+				rotation-per-second="12deg"
+				auto-rotate-delay="0"
+				camera-orbit="0deg 75deg 95%"
+				shadow-intensity="1"
+				shadow-softness="0.45"
+				exposure="0.82"
+				tone-mapping="aces"
+				environment-image="neutral"
+				loading="lazy"
+				reveal="auto"
+				class="h-full w-full"
+				style="touch-action: pan-y"
+			></model-viewer>
+		</div>
+	</div>
+</div>
+
+<script>
+	import "@google/model-viewer";
+</script>
+

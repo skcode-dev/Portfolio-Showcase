@@ -1,0 +1,28 @@
+---
+import { Image } from "emdash/ui";
+import Base from "../../layouts/Base.astro";
+import TechIcon from "../../components/TechIcon";
+import { entries, interfaceCopy } from "../../lib/cms";
+
+const id = Astro.params.id;
+const [projects, copy] = await Promise.all([entries("projects", { limit: 100 }), interfaceCopy()]);
+const project = projects.find((item) => item.data.legacy_id === id);
+if (!project) return Astro.rewrite("/404");
+const technologies = Array.isArray(project.data.technologies) ? project.data.technologies : [];
+const createdAt = project.data.project_date ? new Date(project.data.project_date) : null;
+---
+
+<Base title={project.data.title} description={project.data.description} type="article" content={{ collection: "projects", id: project.data.id, slug: project.id }}>
+	<main class="min-h-screen px-4 pb-16 pt-20 sm:px-6 sm:pt-28 lg:px-8">
+		<div class="container max-w-5xl">
+			<a href="/portfolio" class="link-ghost mb-5 inline-flex items-center gap-2 rounded-full border border-[var(--line)] px-4 py-2 text-sm font-semibold">← {copy.backToProjects || "Back to Projects"}</a>
+			<article class="section-shell p-4 sm:p-8">
+				{project.data.image && <div class="relative mb-6 aspect-video overflow-hidden rounded-xl border-2 border-[var(--line)] shadow-lg"><Image image={project.data.image} alt={project.data.image.alt || project.data.title} class="h-full w-full object-cover" /></div>}
+				<h1 class="text-3xl font-semibold text-[var(--ink)] sm:text-5xl">{project.data.title}</h1>
+				{createdAt && <p class="project-meta mt-3 text-sm text-[var(--muted)]">{copy.created || "Created"}: {createdAt.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" })}</p>}
+				{technologies.length > 0 && <section class="my-7"><h2 class="mb-3 text-xl font-semibold text-[var(--ink)]">{copy.technologies || "Technologies"}</h2><div class="flex flex-wrap gap-2">{technologies.map((tech: string) => <a href={`/portfolio?tech=${encodeURIComponent(tech)}`} class="project-detail-tech tech-chip inline-flex items-center gap-2 rounded-full border border-[var(--line)] px-3 py-2 text-sm font-semibold"><TechIcon tech={tech} className="h-4 w-4" /><span>{tech}</span></a>)}</div></section>}
+				<section class="mt-7"><h2 class="mb-3 text-xl font-semibold text-[var(--ink)]">{copy.projectDetail || "Project Overview"}</h2><p class="whitespace-pre-line leading-relaxed text-[var(--muted)]">{project.data.description}</p></section>
+			</article>
+		</div>
+	</main>
+</Base>

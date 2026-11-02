@@ -1,0 +1,17 @@
+---
+import { PortableText } from "emdash/ui";
+interface Props {
+	section: string;
+	title: string;
+	description?: string;
+	body?: unknown;
+}
+const { section, title, description, body } = Astro.props;
+---
+
+<header class="mb-8 space-y-3">
+	<p class="eyebrow">{section}</p>
+	<h1 class="text-3xl font-bold tracking-tight text-[var(--ink)] sm:text-5xl">{title}</h1>
+	{description && <p class="max-w-3xl text-base text-[var(--muted)] sm:text-lg">{description}</p>}
+	{body && <div class="prose max-w-none text-[var(--muted)]"><PortableText value={body as any} /></div>}
+</header>

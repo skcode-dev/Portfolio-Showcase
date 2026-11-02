@@ -1,0 +1,55 @@
+---
+import mapSvg from "../../public/japan-prefectures.svg?raw";
+import Base from "../layouts/Base.astro";
+import PageIntro from "../components/PageIntro.astro";
+import { entries, pageContent, interfaceCopy } from "../lib/cms";
+
+const [page, copy, prefectures] = await Promise.all([
+	pageContent("places"), interfaceCopy(), entries("prefectures", { limit: 100, orderBy: { code: "asc" } }),
+]);
+const scoreColors: Record<number, string> = {
+	0: "#d9d6e5",
+	1: "#8bc9e8",
+	2: "#91d49a",
+	3: "#f4d46f",
+	4: "#f4ad91",
+	5: "#f0b2c8",
+};
+const styledMap = prefectures.reduce((svg, prefecture) => {
+	const score = Number(prefecture.data.score);
+	const color = scoreColors[score] || (/^#[\da-f]{6}$/i.test(prefecture.data.color || "") ? prefecture.data.color : scoreColors[0]);
+	return svg.replace(`data-code="${prefecture.data.code}"`, `data-code="${prefecture.data.code}" style="fill:${color}"`);
+}, mapSvg);
+const visitedCount = prefectures.filter((prefecture) => Number(prefecture.data.score) > 0).length;
+const visitedPercent = Math.round((visitedCount / 47) * 100);
+const scoreDescriptions = copy.scoreDescriptions || [];
+---
+
+<Base title={page?.title || "Places I've Visited"} description={page?.description}>
+	<main class="min-h-screen px-4 pb-16 pt-20 sm:px-6 sm:pt-28 lg:px-8">
+		<div class="container mx-auto w-full min-w-0 max-w-6xl space-y-6 sm:space-y-8">
+			<PageIntro section={page?.section || "Japan"} title={page?.title || "Places I've Visited"} description={page?.description} body={page?.body} />
+			<section class="section-shell p-3 sm:p-5" aria-label={copy.travelMapLabel || "Japan travel map"}>
+				<div class="japan-travel-map mx-auto w-full max-w-xl overflow-hidden rounded-2xl border border-[#d9cdb5] bg-[#f8f1e3] p-2 sm:p-4 [&>svg]:block [&>svg]:h-auto [&>svg]:w-full" role="img" aria-label={`${copy.mapLabel || "Map of Japan with travel scores"}: ${prefectures.filter((p) => p.data.score > 0).map((p) => `${p.data.name} ${p.data.score}`).join(", ")}`} set:html={styledMap}></div>
+				<div class="map-visit-summary mt-3 flex items-center gap-3" aria-label={`${visitedCount} of 47 prefectures visited`}>
+					<span class="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">Visited</span>
+					<div class="map-visit-track" role="progressbar" aria-label="Prefectures visited" aria-valuemin="0" aria-valuemax="47" aria-valuenow={visitedCount}><span class="map-visit-progress" style={`width:${visitedPercent}%`}></span></div>
+					<strong class="shrink-0 text-sm tabular-nums text-[var(--ink)]">{visitedCount}<span class="font-medium text-[var(--muted)]"> / 47</span></strong>
+				</div>
+				<p class="mt-2 text-right text-xs text-[var(--muted)]">{copy.travelMapAttribution || "Map data by Geolonia"} · <a class="underline underline-offset-2" href="https://www.gnu.org/licenses/fdl-1.3.html" target="_blank" rel="noreferrer">{copy.travelMapLicense || "GFDL"}</a></p>
+			</section>
+			<section class="section-shell space-y-4 p-3 sm:space-y-5 sm:p-5" aria-labelledby="score-legend-title">
+				<h2 id="score-legend-title" class="text-2xl font-semibold text-[var(--ink)]">{copy.travelScale || "Travel scale"}</h2>
+				<ol class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+					{scoreDescriptions.map((item: any) => <li class="flex min-h-24 items-center gap-4 rounded-xl border border-[var(--line)] bg-[var(--paper)] p-4"><span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-black/10 text-lg font-bold text-[#201d19] shadow-sm" style={{ backgroundColor: scoreColors[Number(item.score)] || "#d9d6e5" }}>{item.score}</span><span class="min-w-0"><span class="block font-semibold text-[var(--ink)]">{item.title}</span><span class="mt-1 block text-sm leading-snug text-[var(--muted)]">{item.detail}</span></span></li>)}
+				</ol>
+			</section>
+		</div>
+	</main>
+</Base>
+
+<style>
+	.japan-travel-map { max-width: 36rem; }
+	.map-visit-track { height: .35rem; flex: 1; overflow: hidden; border-radius: 999px; background: color-mix(in srgb, var(--line) 45%, transparent); }
+	.map-visit-progress { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+</style>

@@ -1,0 +1,1951 @@
+{
+  "$schema": "https://emdashcms.com/seed.schema.json",
+  "version": "1",
+  "defaultLocale": "en",
+  "meta": {
+    "name": "skCode Portfolio",
+    "description": "Personal portfolio and interests",
+    "author": "skCode"
+  },
+  "settings": {
+    "title": "skCode",
+    "tagline": "🍻✈️♨️🚗🏍️💻📱👕👟🏃🏀📷☕️🍜🏕️🔤",
+    "logo": {
+      "$media": {
+        "url": "https://portfolio-showcase-qarp.vercel.app/images/icon.png",
+        "filename": "icon.png",
+        "alt": "skCode"
+      }
+    },
+    "timezone": "Asia/Tokyo"
+  },
+  "collections": [
+    {
+      "slug": "pages",
+      "label": "Page content",
+      "labelSingular": "Page",
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions",
+        "search",
+        "seo"
+      ],
+      "fields": [
+        {
+          "slug": "section",
+          "label": "Section label",
+          "type": "string"
+        },
+        {
+          "slug": "title",
+          "label": "Page title",
+          "type": "string",
+          "required": true,
+          "searchable": true
+        },
+        {
+          "slug": "description",
+          "label": "Description",
+          "type": "text"
+        },
+        {
+          "slug": "body",
+          "label": "Page content",
+          "type": "portableText",
+          "searchable": true
+        },
+        {
+          "slug": "hero_image",
+          "label": "Hero image",
+          "type": "image"
+        }
+      ]
+    },
+    {
+      "slug": "projects",
+      "label": "Projects",
+      "labelSingular": "Project",
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions",
+        "search",
+        "seo"
+      ],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "searchable": true
+        },
+        {
+          "slug": "legacy_id",
+          "label": "Existing project URL ID",
+          "type": "string",
+          "required": true
+        },
+        {
+          "slug": "description",
+          "label": "Description",
+          "type": "text",
+          "searchable": true
+        },
+        {
+          "slug": "technologies",
+          "label": "Technologies (JSON list)",
+          "type": "json"
+        },
+        {
+          "slug": "image",
+          "label": "Project image",
+          "type": "image"
+        },
+        {
+          "slug": "project_date",
+          "label": "Created date",
+          "type": "datetime"
+        },
+        {
+          "slug": "display_order",
+          "label": "Display order",
+          "type": "integer"
+        }
+      ]
+    },
+    {
+      "slug": "profile",
+      "label": "Profile",
+      "labelSingular": "Profile",
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions",
+        "search",
+        "seo"
+      ],
+      "fields": [
+        {
+          "slug": "name",
+          "label": "Name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "slug": "bio",
+          "label": "Bio / profile introduction",
+          "type": "text"
+        },
+        {
+          "slug": "avatar",
+          "label": "Profile image",
+          "type": "image"
+        },
+        {
+          "slug": "experience",
+          "label": "Experience (JSON)",
+          "type": "json"
+        },
+        {
+          "slug": "career_milestones",
+          "label": "Career timeline (JSON)",
+          "type": "json"
+        },
+        {
+          "slug": "automotive_experience",
+          "label": "Automotive experience detail (JSON)",
+          "type": "json"
+        },
+        {
+          "slug": "certifications",
+          "label": "Certifications (JSON)",
+          "type": "json"
+        },
+        {
+          "slug": "social",
+          "label": "Social links (JSON)",
+          "type": "json"
+        },
+        {
+          "slug": "tech_categories",
+          "label": "Skills and categories (JSON)",
+          "type": "json"
+        }
+      ]
+    },
+    {
+      "slug": "cars",
+      "label": "Cars",
+      "labelSingular": "Car",
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions",
+        "search",
+        "seo"
+      ],
+      "fields": [
+        {
+          "slug": "make",
+          "label": "Make",
+          "type": "string"
+        },
+        {
+          "slug": "model",
+          "label": "Model",
+          "type": "string",
+          "required": true
+        },
+        {
+          "slug": "years",
+          "label": "Years",
+          "type": "string"
+        },
+        {
+          "slug": "number",
+          "label": "Display number",
+          "type": "string"
+        },
+        {
+          "slug": "image",
+          "label": "Image",
+          "type": "image"
+        },
+        {
+          "slug": "image_position",
+          "label": "Image position",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "slug": "destinations",
+      "label": "Travel destinations",
+      "labelSingular": "Destination",
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions",
+        "search",
+        "seo"
+      ],
+      "fields": [
+        {
+          "slug": "label",
+          "label": "Timeline label",
+          "type": "string",
+          "required": true
+        },
+        {
+          "slug": "year",
+          "label": "Date value",
+          "type": "string"
+        },
+        {
+          "slug": "places",
+          "label": "Places (JSON)",
+          "type": "json"
+        },
+        {
+          "slug": "display_order",
+          "label": "Display order",
+          "type": "integer"
+        }
+      ]
+    },
+    {
+      "slug": "prefectures",
+      "label": "Japan prefectures",
+      "labelSingular": "Prefecture",
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions",
+        "search",
+        "seo"
+      ],
+      "fields": [
+        {
+          "slug": "code",
+          "label": "Prefecture code",
+          "type": "string",
+          "required": true
+        },
+        {
+          "slug": "name",
+          "label": "Name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "slug": "score",
+          "label": "Travel score (0–5)",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "slug": "color",
+          "label": "Color",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "slug": "running_results",
+      "label": "Running results",
+      "labelSingular": "Running result",
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions",
+        "search",
+        "seo"
+      ],
+      "fields": [
+        {
+          "slug": "distance",
+          "label": "Distance",
+          "type": "string",
+          "required": true
+        },
+        {
+          "slug": "time",
+          "label": "Time",
+          "type": "string",
+          "required": true
+        },
+        {
+          "slug": "event",
+          "label": "Event",
+          "type": "string"
+        },
+        {
+          "slug": "date",
+          "label": "Date",
+          "type": "datetime"
+        }
+      ]
+    },
+    {
+      "slug": "site_copy",
+      "label": "Interface copy",
+      "labelSingular": "Copy set",
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions",
+        "search",
+        "seo"
+      ],
+      "fields": [
+        {
+          "slug": "values",
+          "label": "Interface labels and page microcopy (JSON)",
+          "type": "json"
+        }
+      ]
+    }
+  ],
+  "menus": [
+    {
+      "name": "primary",
+      "label": "Main navigation",
+      "items": [
+        {
+          "type": "custom",
+          "label": "Portfolio",
+          "url": "/portfolio"
+        },
+        {
+          "type": "custom",
+          "label": "Places",
+          "url": "/places"
+        },
+        {
+          "type": "custom",
+          "label": "Destinations",
+          "url": "/destinations"
+        },
+        {
+          "type": "custom",
+          "label": "Cars",
+          "url": "/cars"
+        },
+        {
+          "type": "custom",
+          "label": "Running",
+          "url": "/running"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "pages": [
+      {
+        "id": "home",
+        "slug": "home",
+        "status": "published",
+        "data": {
+          "section": "Home",
+          "title": "skCode",
+          "description": "🍻✈️♨️🚗🏍️💻📱👕👟🏃🏀📷☕️🍜🏕️🔤"
+        }
+      },
+      {
+        "id": "portfolio",
+        "slug": "portfolio",
+        "status": "published",
+        "data": {
+          "section": "Portfolio",
+          "title": "Projects",
+          "description": "Selected web applications and experiments."
+        }
+      },
+      {
+        "id": "places",
+        "slug": "places",
+        "status": "published",
+        "data": {
+          "section": "Japan",
+          "title": "Places I've Visited",
+          "description": "A record of the prefectures I've explored."
+        }
+      },
+      {
+        "id": "destinations",
+        "slug": "destinations",
+        "status": "published",
+        "data": {
+          "section": "Around the World",
+          "title": "Places I've Visited",
+          "description": "A timeline of the places I've traveled abroad."
+        }
+      },
+      {
+        "id": "cars",
+        "slug": "cars",
+        "status": "published",
+        "data": {
+          "section": "Cars",
+          "title": "Cars I've Owned",
+          "description": "A short history of the cars I've driven."
+        }
+      },
+      {
+        "id": "running",
+        "slug": "running",
+        "status": "published",
+        "data": {
+          "section": "Running",
+          "title": "Race Results",
+          "description": "Personal bests and race history.",
+          "hero_image": {
+            "$media": {
+              "url": "https://portfolio-showcase-qarp.vercel.app/images/running/running-shoes.jpg",
+              "filename": "running-shoes.jpg",
+              "alt": "Race Results"
+            }
+          }
+        }
+      }
+    ],
+    "profile": [
+      {
+        "id": "main-profile",
+        "slug": "main-profile",
+        "status": "published",
+        "data": {
+          "name": "skCode",
+          "bio": "🍻✈️♨️🚗🏍️💻📱👕👟🏃🏀📷☕️🍜🏕️🔤",
+          "avatar": {
+            "$media": {
+              "url": "https://portfolio-showcase-qarp.vercel.app/images/icon.png",
+              "filename": "icon.png",
+              "alt": "skCode portfolio avatar"
+            }
+          },
+          "experience": [
+            {
+              "title": "Automotive Development Engineer",
+              "period": "2012 - 2024",
+              "description": "12 years of experience in automotive development."
+            },
+            {
+              "title": "Web Application Development Engineer",
+              "period": "2025 -",
+              "description": "Starting focused web application development in 2025. Specializing in frontend technologies like React and Next.js."
+            }
+          ],
+          "career_milestones": [
+            {
+              "period": "2012 — 2024",
+              "title": "Automotive Development Engineer",
+              "description": "12 years of experience in automotive development.",
+              "marker": "01"
+            },
+            {
+              "period": "2025 —",
+              "title": "Web Application Developer",
+              "description": "Building web applications with a focus on frontend technologies like React and Next.js.",
+              "marker": "02"
+            }
+          ],
+          "automotive_experience": [
+            {
+              "area": "Production line",
+              "category": "Production",
+              "items": [
+                "6 months"
+              ]
+            },
+            {
+              "area": "Engine development",
+              "category": "Development",
+              "items": [
+                "Engine assembly",
+                "Engine bench evaluation"
+              ]
+            },
+            {
+              "area": "Vehicle evaluation",
+              "category": "Development",
+              "items": [
+                "Test course",
+                "Chassis dynamometer"
+              ]
+            },
+            {
+              "area": "Development support",
+              "category": "Development",
+              "items": [
+                "Equipment introduction and upgrades",
+                "Development support tool development"
+              ]
+            }
+          ],
+          "certifications": [
+            {
+              "name": "AWS Certified Cloud Practitioner / AWS認定クラウドプラクティショナー",
+              "issuer": "Amazon Web Services / アマゾンウェブサービス",
+              "year": 2024
+            },
+            {
+              "name": "Hazardous Materials Engineer Class B (Types 1, 4, 6) / 危険物取扱者乙種（第1、4、6類）",
+              "issuer": "Fire and Disaster Management Agency / 消防庁",
+              "year": 2023
+            },
+            {
+              "name": "Automobile Mechanic Class 2 (Gasoline Engines) / 二級自動車整備士（ガソリン）",
+              "issuer": "Ministry of Land, Infrastructure, Transport and Tourism / 国土交通省",
+              "year": 2022
+            },
+            {
+              "name": "Automobile Mechanic Class 3 (Diesel Engines) / 三級自動車整備士（ディーゼル）",
+              "issuer": "Ministry of Land, Infrastructure, Transport and Tourism / 国土交通省",
+              "year": 2021
+            },
+            {
+              "name": "Automobile Mechanic Class 3 (Chassis) / 三級自動車整備士（シャシ）",
+              "issuer": "Ministry of Land, Infrastructure, Transport and Tourism / 国土交通省",
+              "year": 2021
+            },
+            {
+              "name": "Autonomous Maintenance Specialist Level 1 / 自主保全士1級",
+              "issuer": "Japan Institute of Plant Maintenance / 日本プラントメンテナンス協会",
+              "year": 2020
+            },
+            {
+              "name": "Technical Skill Test: Internal Combustion Engine Assembly Level 1 / 技能検定 内燃機関組立1級",
+              "issuer": "Ministry of Health, Labour and Welfare / 厚生労働省",
+              "year": 2020
+            },
+            {
+              "name": "Technical Skill Test: Electronic Equipment Assembly Level 2 / 技能検定 電子機器組立2級",
+              "issuer": "Ministry of Health, Labour and Welfare / 厚生労働省",
+              "year": 2019
+            },
+            {
+              "name": "Composite Skills Certification / 複合技能士",
+              "issuer": "Ministry of Health, Labour and Welfare / 厚生労働省",
+              "year": 2019
+            },
+            {
+              "name": "TOEIC Score 720 / TOEIC 720点",
+              "issuer": "Educational Testing Service / 国際ビジネスコミュニケーション協会",
+              "year": 2025
+            },
+            {
+              "name": "Class 2 Electrician License / 第二種電気工事士",
+              "issuer": "Ministry of Economy, Trade and Industry / 経済産業省",
+              "year": 2018
+            }
+          ],
+          "social": {
+            "github": "https://github.com/skcode-dev",
+            "instagram": "https://www.instagram.com/shota.406",
+            "threads": "https://www.threads.net/@shota.406"
+          },
+          "tech_categories": [
+            {
+              "id": "frontend",
+              "name": "Frontend",
+              "techs": [
+                "React",
+                "Vue.js",
+                "Angular",
+                "Next.js"
+              ]
+            },
+            {
+              "id": "backend",
+              "name": "Backend",
+              "techs": [
+                "Node.js",
+                "Express",
+                "NestJS",
+                "Django",
+                "Spring",
+                "Laravel"
+              ]
+            },
+            {
+              "id": "language",
+              "name": "Languages",
+              "techs": [
+                "JavaScript",
+                "TypeScript",
+                "Python",
+                "Java",
+                "PHP",
+                "Go"
+              ]
+            },
+            {
+              "id": "database",
+              "name": "Databases",
+              "techs": [
+                "MongoDB",
+                "PostgreSQL",
+                "MySQL",
+                "Firebase",
+                "LocalStorage"
+              ]
+            },
+            {
+              "id": "devops",
+              "name": "DevOps",
+              "techs": [
+                "Docker",
+                "Git",
+                "AWS",
+                "GCP"
+              ]
+            },
+            {
+              "id": "mobile",
+              "name": "Mobile",
+              "techs": [
+                "React Native",
+                "Flutter"
+              ]
+            },
+            {
+              "id": "visualization",
+              "name": "Visualization",
+              "techs": [
+                "Three.js",
+                "Chart.js",
+                "GSAP",
+                "Framer Motion",
+                "MapLibre GL",
+                "canvas-confetti"
+              ]
+            },
+            {
+              "id": "ui",
+              "name": "UI Frameworks",
+              "techs": [
+                "Material UI",
+                "TailwindCSS",
+                "Bootstrap",
+                "Chakra UI"
+              ]
+            },
+            {
+              "id": "ai",
+              "name": "AI & ML",
+              "techs": [
+                "OpenAI",
+                "TensorFlow",
+                "PyTorch",
+                "Scikit-learn"
+              ]
+            },
+            {
+              "id": "career-skills",
+              "name": "Web Engineering Skills",
+              "skill_groups": [
+                {
+                  "name": "Languages & Source Control",
+                  "skills": [
+                    {
+                      "name": "Python",
+                      "icon": "python",
+                      "color": "#3776AB"
+                    },
+                    {
+                      "name": "TypeScript",
+                      "icon": "typescript",
+                      "color": "#3178C6"
+                    },
+                    {
+                      "name": "Git",
+                      "icon": "git",
+                      "color": "#F05032"
+                    },
+                    {
+                      "name": "GitHub",
+                      "icon": "github",
+                      "color": "#24292F"
+                    }
+                  ]
+                },
+                {
+                  "name": "Frontend & UI",
+                  "skills": [
+                    {
+                      "name": "React",
+                      "icon": "react",
+                      "color": "#61DAFB"
+                    },
+                    {
+                      "name": "Next.js",
+                      "icon": "nextdotjs",
+                      "color": "#111827"
+                    },
+                    {
+                      "name": "MUI",
+                      "icon": "mui",
+                      "color": "#007FFF"
+                    }
+                  ]
+                },
+                {
+                  "name": "Maps & 3D",
+                  "skills": [
+                    {
+                      "name": "MapTiler",
+                      "icon": "maptiler",
+                      "color": "#2F80ED"
+                    },
+                    {
+                      "name": "MapLibre",
+                      "icon": "maplibre",
+                      "color": "#396CB2"
+                    },
+                    {
+                      "name": "Three.js",
+                      "icon": "threedotjs",
+                      "color": "#111827"
+                    }
+                  ]
+                },
+                {
+                  "name": "Backend & API",
+                  "skills": [
+                    {
+                      "name": "FastAPI",
+                      "icon": "fastapi",
+                      "color": "#009688"
+                    },
+                    {
+                      "name": "OpenAPI",
+                      "icon": "openapiinitiative",
+                      "color": "#6BA539"
+                    },
+                    {
+                      "name": "Postman",
+                      "icon": "postman",
+                      "color": "#FF6C37"
+                    }
+                  ]
+                },
+                {
+                  "name": "Build & Development Workflow",
+                  "skills": [
+                    {
+                      "name": "npm",
+                      "icon": "npm",
+                      "color": "#CB3837"
+                    },
+                    {
+                      "name": "pnpm",
+                      "icon": "pnpm",
+                      "color": "#F69220"
+                    },
+                    {
+                      "name": "Turborepo",
+                      "icon": "turborepo",
+                      "color": "#111827"
+                    },
+                    {
+                      "name": "GitHub Actions",
+                      "icon": "githubactions",
+                      "color": "#2088FF"
+                    },
+                    {
+                      "name": "Vite",
+                      "icon": "vite",
+                      "color": "#646CFF"
+                    },
+                    {
+                      "name": "Rsbuild",
+                      "mark": "RS",
+                      "color": "#7C3AED"
+                    }
+                  ]
+                },
+                {
+                  "name": "Code Quality & Testing",
+                  "skills": [
+                    {
+                      "name": "ESLint",
+                      "icon": "eslint",
+                      "color": "#4B32C3"
+                    },
+                    {
+                      "name": "Prettier",
+                      "icon": "prettier",
+                      "color": "#F7B93E"
+                    },
+                    {
+                      "name": "Husky",
+                      "mark": "H",
+                      "color": "#805B42"
+                    },
+                    {
+                      "name": "Lefthook",
+                      "icon": "lefthook",
+                      "color": "#E4572E"
+                    },
+                    {
+                      "name": "Ruff",
+                      "icon": "ruff",
+                      "color": "#D7FF64"
+                    },
+                    {
+                      "name": "Knip",
+                      "icon": "knip",
+                      "color": "#F28C28"
+                    },
+                    {
+                      "name": "Vitest",
+                      "icon": "vitest",
+                      "color": "#6E9F18"
+                    },
+                    {
+                      "name": "Pytest",
+                      "icon": "pytest",
+                      "color": "#0A9EDC"
+                    },
+                    {
+                      "name": "Jest",
+                      "icon": "jest",
+                      "color": "#C21325"
+                    },
+                    {
+                      "name": "Playwright",
+                      "mark": "PW",
+                      "color": "#2EAD33"
+                    }
+                  ]
+                },
+                {
+                  "name": "Infrastructure, Security & Observability",
+                  "skills": [
+                    {
+                      "name": "Docker",
+                      "icon": "docker",
+                      "color": "#2496ED"
+                    },
+                    {
+                      "name": "Kubernetes",
+                      "icon": "kubernetes",
+                      "color": "#326CE5"
+                    },
+                    {
+                      "name": "K9s",
+                      "mark": "K9",
+                      "color": "#326CE5"
+                    },
+                    {
+                      "name": "Keycloak",
+                      "icon": "keycloak",
+                      "color": "#4D4D4D"
+                    },
+                    {
+                      "name": "Vault",
+                      "icon": "vault",
+                      "color": "#FFEC6E"
+                    },
+                    {
+                      "name": "Wiz",
+                      "mark": "W",
+                      "color": "#5A5DF0"
+                    },
+                    {
+                      "name": "Black Duck",
+                      "mark": "BD",
+                      "color": "#272727"
+                    },
+                    {
+                      "name": "New Relic",
+                      "icon": "newrelic",
+                      "color": "#1CE783"
+                    },
+                    {
+                      "name": "Grafana",
+                      "icon": "grafana",
+                      "color": "#F46800"
+                    }
+                  ]
+                },
+                {
+                  "name": "Data Platforms",
+                  "skills": [
+                    {
+                      "name": "Kafka",
+                      "icon": "apachekafka",
+                      "color": "#231F20"
+                    },
+                    {
+                      "name": "Databricks",
+                      "icon": "databricks",
+                      "color": "#FF3621"
+                    }
+                  ]
+                },
+                {
+                  "name": "AI Tools",
+                  "skills": [
+                    {
+                      "name": "Cline",
+                      "icon": "cline",
+                      "color": "#6B4EFF"
+                    },
+                    {
+                      "name": "GitHub Copilot",
+                      "icon": "githubcopilot",
+                      "color": "#111827"
+                    },
+                    {
+                      "name": "Gemini",
+                      "icon": "googlegemini",
+                      "color": "#4285F4"
+                    },
+                    {
+                      "name": "NotebookLM",
+                      "icon": "notebooklm",
+                      "color": "#7B61FF"
+                    },
+                    {
+                      "name": "Claude",
+                      "icon": "claude",
+                      "color": "#C15F3C"
+                    },
+                    {
+                      "name": "Codex",
+                      "icon": "code",
+                      "color": "#4258FF"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "projects": [
+      {
+        "id": "project-7",
+        "slug": "project-7",
+        "status": "published",
+        "data": {
+          "title": "GoalGrid",
+          "legacy_id": "7",
+          "description": "A beautiful life goal management application that displays 8 life themes and their associated 8 specific action goals in a radial grid format.\n\nKey features:\n• Radial Grid Display - Beautiful visual representation of life goals in a circular layout\n• 8 Life Themes - Organized goals across different life areas (English, Software Skills, Health, Family, Work, Fitness, Mental Care, Lifestyle)\n• Goal Categorization - Icons to classify different types of goals (numerical, continuous, internal, restrictions/rewards)\n• Pastel Gradient Design - Aesthetically pleasing color scheme with smooth gradients\n• Responsive Layout - Mobile-friendly design that adapts to all screen sizes\n• Visual Hierarchy - Clear organization of goals with intuitive visual structure\n\nBuilt with Next.js and TypeScript, featuring a static design focused on beautiful goal visualization.",
+          "technologies": [
+            "Next.js",
+            "React",
+            "TypeScript",
+            "TailwindCSS"
+          ],
+          "image": {
+            "$media": {
+              "url": "https://portfolio-showcase-qarp.vercel.app/images/goal-grid.png",
+              "filename": "goal-grid.png",
+              "alt": "GoalGrid project image"
+            }
+          },
+          "project_date": "2025-06-22T00:00:00.000Z",
+          "display_order": 0
+        }
+      },
+      {
+        "id": "project-6",
+        "slug": "project-6",
+        "status": "published",
+        "data": {
+          "title": "Route Generator",
+          "legacy_id": "6",
+          "description": "An advanced route URL generation and sharing tool using Google Maps API. Set departure, destination, and multiple waypoints to create and share routes as URLs.\n\nKey features:\n• Google Maps URL Generation - Automatically generate URLs that open in Google Maps\n• Route Sharing - Save and share routes as unique URLs with others\n• Route Restoration - Automatically restore routes when opening shared URLs\n• Autocomplete - Powerful location input with Google Places API autocomplete\n• Drag & Drop - Intuitively reorder waypoints with drag and drop functionality\n• Responsive Design - Smooth UI optimized for both mobile and desktop\n• Modern UI - Cool holographic effects and modern design\n\nBuilt with Next.js App Router, TypeScript, and Google Maps JavaScript SDK for seamless route planning and sharing.",
+          "technologies": [
+            "Next.js",
+            "TypeScript",
+            "TailwindCSS",
+            "Jotai",
+            "Google Maps API",
+            "Google Places API"
+          ],
+          "image": {
+            "$media": {
+              "url": "https://portfolio-showcase-qarp.vercel.app/images/route-generator.png",
+              "filename": "route-generator.png",
+              "alt": "Route Generator project image"
+            }
+          },
+          "project_date": "2025-06-21T00:00:00.000Z",
+          "display_order": 1
+        }
+      },
+      {
+        "id": "project-5",
+        "slug": "project-5",
+        "status": "published",
+        "data": {
+          "title": "BizBuz",
+          "legacy_id": "5",
+          "description": "A web application that transforms ordinary text into business terminology using OpenAI integration.\n\nKey features:\n• Three conversion tones (Normal/Gag/Extreme) powered by OpenAI\n• Conversion history storage (up to 20 entries)\n• Browser-based data storage\n• Responsive design optimized for both desktop and mobile devices\n• Real-time text transformation using OpenAI API\n• Mobile-friendly interface for easy access to business terminology\n\nA service that can be enjoyed by everyone from business professionals to students, showcasing modern AI integration techniques.",
+          "technologies": [
+            "Next.js",
+            "TypeScript",
+            "TailwindCSS",
+            "LocalStorage",
+            "OpenAI"
+          ],
+          "image": {
+            "$media": {
+              "url": "https://portfolio-showcase-qarp.vercel.app/images/bizbuz.png",
+              "filename": "bizbuz.png",
+              "alt": "BizBuz project image"
+            }
+          },
+          "project_date": "2025-04-13T00:00:00.000Z",
+          "display_order": 2
+        }
+      },
+      {
+        "id": "project-2",
+        "slug": "project-2",
+        "status": "published",
+        "data": {
+          "title": "MapLibre Map Demo",
+          "legacy_id": "2",
+          "description": "An interactive map application demo utilizing MapLibre with modern UI and diverse mapping features.\n\nKey features:\n• Marker Display - Add and manage markers at any location\n• Route Display - Calculate and display routes between two points\n• Map Styles - Switch between various map styles and 3D displays\n• Current Location - Display user's current location on the map\n\nImplemented with a modern glass-morphism UI design and responsive layout that adapts to all devices.",
+          "technologies": [
+            "React",
+            "Next.js",
+            "TypeScript",
+            "MapLibre GL",
+            "Material UI"
+          ],
+          "image": {
+            "$media": {
+              "url": "https://portfolio-showcase-qarp.vercel.app/images/map-demo.png",
+              "filename": "map-demo.png",
+              "alt": "MapLibre Map Demo project image"
+            }
+          },
+          "project_date": "2025-03-29T00:00:00.000Z",
+          "display_order": 3
+        }
+      },
+      {
+        "id": "project-4",
+        "slug": "project-4",
+        "status": "published",
+        "data": {
+          "title": "Kids Chore Tracker",
+          "legacy_id": "4",
+          "description": "A web application for making household chores fun and rewarding for children.\n\nKey features:\n• Multiple child profiles with individual tracking\n• Colorful and intuitive UI with kid-friendly icons and themes\n• Celebratory confetti effects when tasks are completed\n• Point history tracking for each child\n• Custom chore creation and management\n• Data backup and restore functionality\n\nUtilizes local storage for data persistence, allowing offline usage without internet connection.",
+          "technologies": [
+            "Next.js",
+            "React",
+            "TypeScript",
+            "TailwindCSS",
+            "LocalStorage",
+            "canvas-confetti"
+          ],
+          "image": {
+            "$media": {
+              "url": "https://portfolio-showcase-qarp.vercel.app/images/kids-app.png",
+              "filename": "kids-app.png",
+              "alt": "Kids Chore Tracker project image"
+            }
+          },
+          "project_date": "2025-03-30T00:00:00.000Z",
+          "display_order": 4
+        }
+      },
+      {
+        "id": "project-1",
+        "slug": "project-1",
+        "status": "published",
+        "data": {
+          "title": "Portfolio Website",
+          "legacy_id": "1",
+          "description": "This portfolio site is built using Next.js 15 and the latest React features. It features refined styling with TailwindCSS and smooth animations powered by Framer Motion.\n\nThe site is fully responsive, providing optimal viewing across all devices from mobile to desktop. It also supports toggling between dark and light modes.\n\nThe project gallery includes a filtering system that allows visitors to narrow down projects based on technologies of interest.\n\nMoving forward, I plan to add new projects while continuously incorporating the latest web technologies.",
+          "technologies": [
+            "Next.js",
+            "React",
+            "TypeScript",
+            "TailwindCSS",
+            "Framer Motion"
+          ],
+          "image": {
+            "$media": {
+              "url": "https://portfolio-showcase-qarp.vercel.app/images/portfolio.png",
+              "filename": "portfolio.png",
+              "alt": "Portfolio Website project image"
+            }
+          },
+          "project_date": "2025-03-27T00:00:00.000Z",
+          "display_order": 5
+        }
+      },
+      {
+        "id": "project-3",
+        "slug": "project-3",
+        "status": "published",
+        "data": {
+          "title": "Next.js Task Manager",
+          "legacy_id": "3",
+          "description": "A simple but effective task management application built with Next.js and MongoDB.\n\nKey features:\n• Task Creation - Add new tasks with title, description, and priority\n• Task Management - Mark tasks as complete, edit details, or delete tasks\n• Filtering - Filter tasks by completion status\n• Responsive Design - Works seamlessly on mobile and desktop devices\n\nBuilt to demonstrate proficiency with Next.js, MongoDB integration, and modern React patterns.",
+          "technologies": [
+            "Next.js",
+            "React",
+            "MongoDB",
+            "TypeScript",
+            "TailwindCSS"
+          ],
+          "image": {
+            "$media": {
+              "url": "https://portfolio-showcase-qarp.vercel.app/images/next-tasks.png",
+              "filename": "next-tasks.png",
+              "alt": "Next.js Task Manager project image"
+            }
+          },
+          "project_date": "2024-09-09T00:00:00.000Z",
+          "display_order": 6
+        }
+      }
+    ],
+    "cars": [
+      {
+        "id": "car-03",
+        "slug": "car-03",
+        "status": "published",
+        "data": {
+          "make": "Lexus",
+          "model": "NX 350h F SPORT",
+          "years": "2024–",
+          "number": "03",
+          "image_position": "center bottom",
+          "image": {
+            "$media": {
+              "url": "https://portfolio-showcase-qarp.vercel.app/images/cars/lexus-nx.jpeg",
+              "filename": "lexus-nx.jpeg",
+              "alt": "Black Lexus NX 350h F SPORT by the water under a blue sky"
+            }
+          }
+        }
+      },
+      {
+        "id": "car-02",
+        "slug": "car-02",
+        "status": "published",
+        "data": {
+          "make": "Toyota",
+          "model": "FJ Cruiser",
+          "years": "2017–2024",
+          "number": "02",
+          "image_position": "center",
+          "image": {
+            "$media": {
+              "url": "https://portfolio-showcase-qarp.vercel.app/images/cars/fj-cruiser.jpg",
+              "filename": "fj-cruiser.jpg",
+              "alt": "Beige Toyota FJ Cruiser photographed from the front"
+            }
+          }
+        }
+      },
+      {
+        "id": "car-01",
+        "slug": "car-01",
+        "status": "published",
+        "data": {
+          "make": "Toyota",
+          "model": "Celica",
+          "years": "2013–2017",
+          "number": "01",
+          "image_position": "center",
+          "image": {
+            "$media": {
+              "url": "https://portfolio-showcase-qarp.vercel.app/images/cars/celica.jpg",
+              "filename": "celica.jpg",
+              "alt": "White Toyota Celica parked outdoors"
+            }
+          }
+        }
+      }
+    ],
+    "destinations": [
+      {
+        "id": "destination-1",
+        "slug": "destination-1",
+        "status": "published",
+        "data": {
+          "label": "As a child",
+          "year": "",
+          "places": [
+            {
+              "name": "Guam",
+              "cities": ""
+            },
+            {
+              "name": "Saipan",
+              "cities": ""
+            }
+          ],
+          "display_order": 0
+        }
+      },
+      {
+        "id": "destination-2",
+        "slug": "destination-2",
+        "status": "published",
+        "data": {
+          "label": "2011",
+          "year": "2011",
+          "places": [
+            {
+              "name": "China",
+              "cities": "Tianjin · Beijing"
+            }
+          ],
+          "display_order": 1
+        }
+      },
+      {
+        "id": "destination-3",
+        "slug": "destination-3",
+        "status": "published",
+        "data": {
+          "label": "2015",
+          "year": "2015",
+          "places": [
+            {
+              "name": "Thailand",
+              "cities": "Bangkok · Phuket"
+            }
+          ],
+          "display_order": 2
+        }
+      },
+      {
+        "id": "destination-4",
+        "slug": "destination-4",
+        "status": "published",
+        "data": {
+          "label": "2017",
+          "year": "2017",
+          "places": [
+            {
+              "name": "Hawaii",
+              "cities": "Oahu"
+            }
+          ],
+          "display_order": 3
+        }
+      },
+      {
+        "id": "destination-5",
+        "slug": "destination-5",
+        "status": "published",
+        "data": {
+          "label": "2018",
+          "year": "2018",
+          "places": [
+            {
+              "name": "Singapore",
+              "cities": ""
+            },
+            {
+              "name": "South Korea",
+              "cities": "Seoul"
+            }
+          ],
+          "display_order": 4
+        }
+      },
+      {
+        "id": "destination-6",
+        "slug": "destination-6",
+        "status": "published",
+        "data": {
+          "label": "2024",
+          "year": "2024",
+          "places": [
+            {
+              "name": "Vietnam",
+              "cities": "Da Nang · Hoi An"
+            }
+          ],
+          "display_order": 5
+        }
+      }
+    ],
+    "prefectures": [
+      {
+        "id": "prefecture-10",
+        "slug": "prefecture-10",
+        "status": "published",
+        "data": {
+          "code": "10",
+          "name": "Gunma",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-11",
+        "slug": "prefecture-11",
+        "status": "published",
+        "data": {
+          "code": "11",
+          "name": "Saitama",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-12",
+        "slug": "prefecture-12",
+        "status": "published",
+        "data": {
+          "code": "12",
+          "name": "Chiba",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-13",
+        "slug": "prefecture-13",
+        "status": "published",
+        "data": {
+          "code": "13",
+          "name": "Tokyo",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-14",
+        "slug": "prefecture-14",
+        "status": "published",
+        "data": {
+          "code": "14",
+          "name": "Kanagawa",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-15",
+        "slug": "prefecture-15",
+        "status": "published",
+        "data": {
+          "code": "15",
+          "name": "Niigata",
+          "score": 3,
+          "color": "#f4d46f"
+        }
+      },
+      {
+        "id": "prefecture-16",
+        "slug": "prefecture-16",
+        "status": "published",
+        "data": {
+          "code": "16",
+          "name": "Toyama",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-17",
+        "slug": "prefecture-17",
+        "status": "published",
+        "data": {
+          "code": "17",
+          "name": "Ishikawa",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-18",
+        "slug": "prefecture-18",
+        "status": "published",
+        "data": {
+          "code": "18",
+          "name": "Fukui",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-19",
+        "slug": "prefecture-19",
+        "status": "published",
+        "data": {
+          "code": "19",
+          "name": "Yamanashi",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-20",
+        "slug": "prefecture-20",
+        "status": "published",
+        "data": {
+          "code": "20",
+          "name": "Nagano",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-21",
+        "slug": "prefecture-21",
+        "status": "published",
+        "data": {
+          "code": "21",
+          "name": "Gifu",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-22",
+        "slug": "prefecture-22",
+        "status": "published",
+        "data": {
+          "code": "22",
+          "name": "Shizuoka",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-23",
+        "slug": "prefecture-23",
+        "status": "published",
+        "data": {
+          "code": "23",
+          "name": "Aichi",
+          "score": 5,
+          "color": "#f0b2c8"
+        }
+      },
+      {
+        "id": "prefecture-24",
+        "slug": "prefecture-24",
+        "status": "published",
+        "data": {
+          "code": "24",
+          "name": "Mie",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-25",
+        "slug": "prefecture-25",
+        "status": "published",
+        "data": {
+          "code": "25",
+          "name": "Shiga",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-26",
+        "slug": "prefecture-26",
+        "status": "published",
+        "data": {
+          "code": "26",
+          "name": "Kyoto",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-27",
+        "slug": "prefecture-27",
+        "status": "published",
+        "data": {
+          "code": "27",
+          "name": "Osaka",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-28",
+        "slug": "prefecture-28",
+        "status": "published",
+        "data": {
+          "code": "28",
+          "name": "Hyogo",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-29",
+        "slug": "prefecture-29",
+        "status": "published",
+        "data": {
+          "code": "29",
+          "name": "Nara",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-30",
+        "slug": "prefecture-30",
+        "status": "published",
+        "data": {
+          "code": "30",
+          "name": "Wakayama",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-31",
+        "slug": "prefecture-31",
+        "status": "published",
+        "data": {
+          "code": "31",
+          "name": "Tottori",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-32",
+        "slug": "prefecture-32",
+        "status": "published",
+        "data": {
+          "code": "32",
+          "name": "Shimane",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-33",
+        "slug": "prefecture-33",
+        "status": "published",
+        "data": {
+          "code": "33",
+          "name": "Okayama",
+          "score": 3,
+          "color": "#f4d46f"
+        }
+      },
+      {
+        "id": "prefecture-34",
+        "slug": "prefecture-34",
+        "status": "published",
+        "data": {
+          "code": "34",
+          "name": "Hiroshima",
+          "score": 3,
+          "color": "#f4d46f"
+        }
+      },
+      {
+        "id": "prefecture-35",
+        "slug": "prefecture-35",
+        "status": "published",
+        "data": {
+          "code": "35",
+          "name": "Yamaguchi",
+          "score": 0,
+          "color": "#d9d6e5"
+        }
+      },
+      {
+        "id": "prefecture-36",
+        "slug": "prefecture-36",
+        "status": "published",
+        "data": {
+          "code": "36",
+          "name": "Tokushima",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-37",
+        "slug": "prefecture-37",
+        "status": "published",
+        "data": {
+          "code": "37",
+          "name": "Kagawa",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-38",
+        "slug": "prefecture-38",
+        "status": "published",
+        "data": {
+          "code": "38",
+          "name": "Ehime",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-39",
+        "slug": "prefecture-39",
+        "status": "published",
+        "data": {
+          "code": "39",
+          "name": "Kochi",
+          "score": 3,
+          "color": "#f4d46f"
+        }
+      },
+      {
+        "id": "prefecture-40",
+        "slug": "prefecture-40",
+        "status": "published",
+        "data": {
+          "code": "40",
+          "name": "Fukuoka",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-41",
+        "slug": "prefecture-41",
+        "status": "published",
+        "data": {
+          "code": "41",
+          "name": "Saga",
+          "score": 0,
+          "color": "#d9d6e5"
+        }
+      },
+      {
+        "id": "prefecture-42",
+        "slug": "prefecture-42",
+        "status": "published",
+        "data": {
+          "code": "42",
+          "name": "Nagasaki",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-43",
+        "slug": "prefecture-43",
+        "status": "published",
+        "data": {
+          "code": "43",
+          "name": "Kumamoto",
+          "score": 5,
+          "color": "#f0b2c8"
+        }
+      },
+      {
+        "id": "prefecture-44",
+        "slug": "prefecture-44",
+        "status": "published",
+        "data": {
+          "code": "44",
+          "name": "Oita",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-45",
+        "slug": "prefecture-45",
+        "status": "published",
+        "data": {
+          "code": "45",
+          "name": "Miyazaki",
+          "score": 0,
+          "color": "#d9d6e5"
+        }
+      },
+      {
+        "id": "prefecture-46",
+        "slug": "prefecture-46",
+        "status": "published",
+        "data": {
+          "code": "46",
+          "name": "Kagoshima",
+          "score": 3,
+          "color": "#f4d46f"
+        }
+      },
+      {
+        "id": "prefecture-47",
+        "slug": "prefecture-47",
+        "status": "published",
+        "data": {
+          "code": "47",
+          "name": "Okinawa",
+          "score": 0,
+          "color": "#d9d6e5"
+        }
+      },
+      {
+        "id": "prefecture-01",
+        "slug": "prefecture-01",
+        "status": "published",
+        "data": {
+          "code": "01",
+          "name": "Hokkaido",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-02",
+        "slug": "prefecture-02",
+        "status": "published",
+        "data": {
+          "code": "02",
+          "name": "Aomori",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-03",
+        "slug": "prefecture-03",
+        "status": "published",
+        "data": {
+          "code": "03",
+          "name": "Iwate",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-04",
+        "slug": "prefecture-04",
+        "status": "published",
+        "data": {
+          "code": "04",
+          "name": "Miyagi",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-05",
+        "slug": "prefecture-05",
+        "status": "published",
+        "data": {
+          "code": "05",
+          "name": "Akita",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-06",
+        "slug": "prefecture-06",
+        "status": "published",
+        "data": {
+          "code": "06",
+          "name": "Yamagata",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-07",
+        "slug": "prefecture-07",
+        "status": "published",
+        "data": {
+          "code": "07",
+          "name": "Fukushima",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      },
+      {
+        "id": "prefecture-08",
+        "slug": "prefecture-08",
+        "status": "published",
+        "data": {
+          "code": "08",
+          "name": "Ibaraki",
+          "score": 0,
+          "color": "#d9d6e5"
+        }
+      },
+      {
+        "id": "prefecture-09",
+        "slug": "prefecture-09",
+        "status": "published",
+        "data": {
+          "code": "09",
+          "name": "Tochigi",
+          "score": 4,
+          "color": "#f4ad91"
+        }
+      }
+    ],
+    "running_results": [
+      {
+        "id": "running-1",
+        "slug": "running-1",
+        "status": "published",
+        "data": {
+          "distance": "10 km",
+          "time": "37:16",
+          "event": "Toyota Marathon",
+          "date": "2015-11-15T00:00:00.000Z"
+        }
+      },
+      {
+        "id": "running-2",
+        "slug": "running-2",
+        "status": "published",
+        "data": {
+          "distance": "Full Marathon",
+          "time": "3:28:53",
+          "event": "Kurobe Meisui Marathon",
+          "date": "2019-05-26T00:00:00.000Z"
+        }
+      }
+    ],
+    "site_copy": [
+      {
+        "id": "main-copy",
+        "slug": "main-copy",
+        "status": "published",
+        "data": {
+          "values": {
+            "projectList": "Projects",
+            "projectDetail": "Project Overview",
+            "technologies": "Technologies",
+            "created": "Created",
+            "backToProjects": "Back to Projects",
+            "projectNotFound": "Project not found",
+            "noProjects": "No projects yet.",
+            "filterByTechnology": "Filter by technology",
+            "clearFilters": "Clear filters",
+            "travelScale": "Travel scale",
+            "homeTurf": "Home turf",
+            "overnight": "Overnight",
+            "explored": "Explored",
+            "quickStop": "Quick stop",
+            "inTransit": "In transit",
+            "onMyList": "On my list",
+            "experience": "Experience",
+            "certifications": "Certifications",
+            "skills": "Skills",
+            "cars": "Cars I've Owned",
+            "runningResults": "Race Results",
+            "lightTheme": "Light",
+            "darkTheme": "Dark",
+            "systemTheme": "System",
+            "menuLabel": "Main navigation",
+            "footerCopyright": "© skCode. All Rights Reserved.",
+            "homeLabel": "Home",
+            "themeLabel": "Theme",
+            "runningTimeLabel": "Running times",
+            "viewProject": "View Project",
+            "notFoundTitle": "Page not found",
+            "notFoundDescription": "The page you're looking for doesn't exist or has been moved.",
+            "homeLink": "Go home",
+            "portfolioLink": "View projects",
+            "mapLabel": "Map of Japan with travel scores",
+            "aboutMe": "About Me",
+            "careerJourney": "Career Journey",
+            "careerIntro": "From automotive development to web application development",
+            "exploreExperience": "Explore experience",
+            "exploreSkills": "Explore skills",
+            "allProjects": "All projects",
+            "travelMapAttribution": "Map data by Geolonia",
+            "travelMapLicense": "License: GFDL",
+            "scoreDescriptions": [
+              {
+                "score": 0,
+                "title": "On my list",
+                "detail": "A place to visit someday"
+              },
+              {
+                "score": 1,
+                "title": "In transit",
+                "detail": "Crossed through on the way"
+              },
+              {
+                "score": 2,
+                "title": "Quick stop",
+                "detail": "Set foot there briefly"
+              },
+              {
+                "score": 3,
+                "title": "Explored",
+                "detail": "Had time to look around"
+              },
+              {
+                "score": 4,
+                "title": "Overnight",
+                "detail": "Spent at least one night"
+              },
+              {
+                "score": 5,
+                "title": "Home turf",
+                "detail": "A place I called home"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

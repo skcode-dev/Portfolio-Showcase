@@ -1,0 +1,409 @@
+---
+import { getMenuWithCacheHint, getSiteSettingsWithCacheHint } from "emdash";
+import { EmDashBodyEnd, EmDashBodyStart, EmDashHead } from "emdash/ui";
+import { createPublicPageContext } from "emdash/page";
+import { getEmDashCollection } from "emdash";
+import "../styles/tokens.css";
+import "../styles/theme.css";
+import "../styles/generated.css";
+
+interface Props {
+	title?: string;
+	pageTitle?: string | null;
+	description?: string | null;
+	image?: string | null;
+	canonical?: string | null;
+	robots?: string | null;
+	type?: "website" | "article";
+	content?: { collection: string; id: string; slug?: string | null };
+}
+
+const {
+	title,
+	pageTitle,
+	description,
+	image,
+	canonical,
+	robots,
+	type = "website",
+	content,
+} = Astro.props;
+const [settingsResult, menuResult] = await Promise.all([
+	getSiteSettingsWithCacheHint(),
+	getMenuWithCacheHint("primary"),
+]);
+const copyResult = await getEmDashCollection("site_copy", { limit: 1 });
+const settings = settingsResult.data;
+const menu = menuResult.data;
+const copy = (copyResult.entries[0]?.data.values ?? {}) as Record<string, string>;
+if (Astro.cache?.enabled) {
+	Astro.cache.set(settingsResult.cacheHint);
+	Astro.cache.set(menuResult.cacheHint);
+	Astro.cache.set(copyResult.cacheHint);
+}
+
+const siteTitle = settings?.title || "Studio";
+const separator = settings?.seo?.titleSeparator || " — ";
+const fullTitle = !title
+	? siteTitle
+	: title === siteTitle ||
+		  title.endsWith(` — ${siteTitle}`) ||
+		  title.endsWith(` | ${siteTitle}`)
+		? title
+		: `${title}${separator}${siteTitle}`;
+const siteDescription = settings?.tagline || "Design & Development";
+const siteLogo = settings?.logo?.url ? settings.logo : null;
+const canonicalUrl =
+	canonical ?? new URL(Astro.url.pathname, Astro.url.origin).href;
+
+const pageCtx = createPublicPageContext({
+	Astro,
+	kind: content ? "content" : "custom",
+	pageType: type,
+	title: fullTitle,
+	pageTitle: pageTitle ?? title ?? siteTitle,
+	description: description || siteDescription,
+	canonical: canonicalUrl,
+	image,
+	content,
+	seo: { ogImage: image, robots },
+	siteName: siteTitle,
+});
+
+---
+
+<!doctype html>
+	<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{fullTitle}</title>
+		<link rel="icon" type="image/png" href="/images/icon.png" />
+		<link rel="apple-touch-icon" href="/images/icon.png" />
+		<EmDashHead page={pageCtx} />
+		<script is:inline>
+			// Apply an explicit theme choice immediately to prevent flash.
+			(function () {
+				var c = document.cookie;
+				var i = c.indexOf("theme=");
+				var theme = i >= 0 ? c.slice(i + 6).split(";")[0] : null;
+				try { theme = theme || localStorage.getItem("theme"); } catch (_) {}
+				var dark = theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches);
+				document.documentElement.classList.toggle("dark", dark);
+				document.documentElement.style.colorScheme = dark ? "dark" : "light";
+			})();
+		</script>
+	</head>
+	<body>
+		<EmDashBodyStart page={pageCtx} />
+		<div class="fixed inset-x-0 top-0 z-[60] h-[2px] bg-[color-mix(in_srgb,var(--line)_30%,transparent)]" aria-hidden="true"></div>
+		<div class="scroll-progress-indicator fixed left-0 top-0 z-[61] h-[2px] w-full origin-left" aria-hidden="true"></div>
+		<header class="fixed top-0 z-50 w-full border-[var(--line)] transition-all duration-300 nav-surface">
+			<nav class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8" aria-label={copy.menuLabel || "Main navigation"}>
+				<div class="flex items-center justify-between gap-2 py-3">
+				<a href="/" aria-label={copy.homeLabel || "Home"} title={copy.homeLabel || "Home"} class:list={["home-nav-link flex h-8 shrink-0 items-center gap-1 rounded-full px-2 sm:h-11 sm:gap-2 sm:px-3", { "is-active": Astro.url.pathname === "/" }]}>
+					{siteLogo ? <img src={siteLogo.url} alt={siteLogo.alt || siteTitle} class="h-[18px] w-[18px] rounded-full border border-white/50 object-cover min-[375px]:h-5 min-[375px]:w-5 sm:h-7 sm:w-7" /> : <img src="/images/icon.png" alt="" class="h-[18px] w-[18px] rounded-full border border-white/50 object-cover min-[375px]:h-5 min-[375px]:w-5 sm:h-7 sm:w-7" />}
+					<span class="font-[var(--font-display)] text-[10px] font-bold uppercase leading-none tracking-[0.14em] min-[375px]:text-[11px] sm:text-xs">{copy.homeLabel || "Home"}</span>
+				</a>
+				<div class="flex items-center gap-1 sm:gap-4 md:gap-6">
+					{
+						menu?.items.map((item) => (
+							<a
+								href={item.url}
+								target={item.target}
+								rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
+								class:list={["nav-circle h-8 w-8 text-sm sm:h-11 sm:w-11 sm:text-xl", { "border-[var(--accent-2)]": Astro.url.pathname === item.url || (item.url === "/portfolio" && Astro.url.pathname.startsWith("/project/")) }]}
+								title={item.label}
+								aria-label={item.label}
+							>
+								{item.url === "/portfolio" ? "💻" : item.url === "/places" ? "🇯🇵" : item.url === "/destinations" ? "🌏" : item.url === "/cars" ? "🚗" : item.url === "/running" ? "🏃" : "•"}
+							</a>
+						))
+					}
+					<button id="theme-toggle" type="button" class="nav-circle theme-toggle-button h-8 w-8 shrink-0 rounded-lg sm:h-11 sm:w-11" aria-label={copy.themeToggle || "Switch theme"} title={copy.themeToggle || "Switch theme"}>
+						<svg data-theme-icon="light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+						<svg class="hidden" data-theme-icon="dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20.7 15.1A8.6 8.6 0 0 1 8.9 3.3 8.7 8.7 0 1 0 20.7 15.1Z"/></svg>
+					</button>
+				</div>
+				</div>
+			</nav>
+		</header>
+
+		<slot />
+
+		<footer class="site-footer">
+			<div class="footer-content">
+				<div class="footer-brand">
+					<span class="footer-logo">
+						{
+							siteLogo ? (
+								<img src={siteLogo.url} alt={siteLogo.alt || siteTitle} class="footer-logo-img" />
+							) : (
+								siteTitle
+							)
+						}
+					</span>
+					<p class="footer-tagline">{copy.footerCopyright || settings?.tagline || "skCode"}</p>
+				</div>
+				<div class="footer-right">
+					<div class="theme-switcher"></div>
+					<p class="footer-powered">{copy.footerNote || ""}</p>
+				</div>
+			</div>
+		</footer>
+		<EmDashBodyEnd page={pageCtx} />
+
+		<script>
+			// Theme switcher
+			const THEME_REGEX = /theme=([^;]+)/;
+			const root = document.documentElement;
+			const themeToggle = document.querySelector<HTMLButtonElement>("#theme-toggle");
+			const scrollProgressBar = document.querySelector<HTMLElement>(".scroll-progress-indicator");
+
+			function setTheme(theme: string) {
+				if (theme !== "light" && theme !== "dark") theme = "light";
+				const secure = location.protocol === "https:" ? "; Secure" : "";
+				document.cookie = `theme=${theme}; path=/; max-age=31536000; SameSite=Lax${secure}`;
+				try { localStorage.setItem("theme", theme); } catch (_) {}
+				root.classList.toggle("dark", theme === "dark");
+				root.style.colorScheme = theme;
+				updateThemeToggle(theme);
+			}
+
+			function updateThemeToggle(theme: string) {
+				if (!themeToggle) return;
+				const dark = theme === "dark";
+				themeToggle.classList.toggle("is-dark", dark);
+				themeToggle.setAttribute("aria-pressed", String(dark));
+				themeToggle.querySelector('[data-theme-icon="light"]')?.classList.toggle("hidden", dark);
+				themeToggle.querySelector('[data-theme-icon="dark"]')?.classList.toggle("hidden", !dark);
+			}
+
+			function getStoredTheme(): string {
+				const match = document.cookie.match(THEME_REGEX);
+				if (match) return match[1];
+				try {
+					const stored = localStorage.getItem("theme");
+					if (stored === "light" || stored === "dark") return stored;
+				} catch (_) {}
+				return root.classList.contains("dark") ? "dark" : "light";
+			}
+
+			const storedTheme = getStoredTheme();
+			updateThemeToggle(storedTheme);
+			themeToggle?.addEventListener("click", () => setTheme(root.classList.contains("dark") ? "light" : "dark"));
+
+			if (scrollProgressBar) {
+				let targetProgress = 0;
+				let progress = 0;
+				let velocity = 0;
+				let lastTime = 0;
+				let frame = 0;
+				const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+				const updateScrollProgress = () => {
+					const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+					targetProgress = scrollableHeight > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollableHeight)) : 0;
+					if (!frame) frame = requestAnimationFrame(animateScrollProgress);
+				};
+				const animateScrollProgress = (time: number) => {
+					const delta = lastTime ? Math.min((time - lastTime) / 1000, 0.032) : 0;
+					lastTime = time;
+					if (reduceMotion.matches) {
+						progress = targetProgress;
+						velocity = 0;
+					} else {
+						velocity += ((targetProgress - progress) * 120 - velocity * 28) * delta;
+						progress = Math.min(1, Math.max(0, progress + velocity * delta));
+					}
+					scrollProgressBar.style.transform = `scaleX(${progress})`;
+					if (Math.abs(targetProgress - progress) > 0.001 || Math.abs(velocity) > 0.001) frame = requestAnimationFrame(animateScrollProgress);
+					else { progress = targetProgress; velocity = 0; lastTime = 0; scrollProgressBar.style.transform = `scaleX(${progress})`; frame = 0; }
+				};
+				window.addEventListener("scroll", updateScrollProgress, { passive: true });
+				window.addEventListener("resize", updateScrollProgress);
+				new ResizeObserver(updateScrollProgress).observe(document.body);
+				updateScrollProgress();
+			}
+		</script>
+
+		<style>
+			.site-header {
+				max-width: var(--wide-width);
+				margin: 0 auto;
+				padding: var(--spacing-xl) var(--spacing-lg);
+			}
+
+			.nav {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+
+			.site-title {
+				font-family: var(--font-heading);
+				font-size: var(--font-size-lg);
+				font-weight: 600;
+				text-decoration: none;
+				letter-spacing: var(--tracking-tight);
+			}
+
+			.site-logo-img {
+				height: 48px;
+				width: auto;
+				display: block;
+				margin: -8px 0;
+			}
+
+			.nav-links {
+				display: flex;
+				gap: var(--spacing-xl);
+				font-size: var(--font-size-sm);
+			}
+
+			.nav-links a {
+				text-decoration: none;
+				color: var(--color-muted);
+				transition: color var(--transition-fast);
+			}
+
+			.nav-links a:hover {
+				color: var(--color-text);
+			}
+
+			.nav-links a:empty {
+				display: none;
+			}
+
+			.nav-admin {
+				opacity: 0.5;
+			}
+
+			main {
+				min-height: calc(100vh - 200px);
+			}
+
+			.site-footer {
+				max-width: var(--wide-width);
+				margin: 0 auto;
+				padding: var(--spacing-3xl) var(--spacing-lg);
+				border-top: 1px solid var(--color-border);
+			}
+
+			.footer-content {
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-start;
+			}
+
+			.footer-logo {
+				font-family: var(--font-heading);
+				font-size: var(--font-size-lg);
+				font-weight: 600;
+			}
+
+			.footer-logo-img {
+				height: 24px;
+				width: auto;
+			}
+
+			.footer-tagline {
+				font-family: var(--font-heading);
+				font-style: italic;
+				font-size: var(--font-size-sm);
+				color: var(--color-muted);
+				margin-top: var(--spacing-xs);
+			}
+
+			.footer-right {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-end;
+				gap: var(--spacing-md);
+			}
+
+			.theme-switcher {
+				display: flex;
+				gap: var(--spacing-xs);
+			}
+
+			.theme-btn {
+				background: transparent;
+				border: 1px solid var(--color-border);
+				color: var(--color-muted);
+				font-family: var(--font-body);
+				font-size: var(--font-size-sm);
+				padding: var(--spacing-xs) var(--spacing-sm);
+				border-radius: var(--radius);
+				cursor: pointer;
+				transition: all var(--transition-fast);
+			}
+
+			.theme-btn:hover {
+				color: var(--color-text);
+				border-color: var(--color-text);
+			}
+
+			.theme-btn.active {
+				background: var(--color-surface);
+				color: var(--color-text);
+				border-color: var(--color-brand);
+			}
+
+			.footer-powered {
+				font-size: var(--font-size-sm);
+				color: var(--color-muted);
+			}
+
+			.footer-powered a {
+				color: var(--color-text);
+				text-decoration: none;
+			}
+
+			.footer-powered a:hover {
+				text-decoration: underline;
+			}
+
+			@media (max-width: 640px) {
+				.nav {
+					flex-direction: column;
+					gap: var(--spacing-md);
+					align-items: center;
+				}
+
+				.nav-links {
+					flex-wrap: wrap;
+					justify-content: center;
+				}
+
+				.footer-content {
+					flex-direction: column;
+					gap: var(--spacing-xl);
+					align-items: center;
+					text-align: center;
+				}
+
+				.footer-right {
+					align-items: center;
+				}
+
+				h1 {
+					font-size: var(--font-size-3xl);
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				html {
+					scroll-behavior: auto;
+				}
+
+				*,
+				*::before,
+				*::after {
+					animation-duration: 0.01ms !important;
+					animation-iteration-count: 1 !important;
+					transition-duration: 0.01ms !important;
+				}
+			}
+		</style>
+	</body>
+</html>

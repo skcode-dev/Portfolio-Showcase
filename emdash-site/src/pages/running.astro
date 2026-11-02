@@ -1,0 +1,31 @@
+---
+import { Image } from "emdash/ui";
+import Base from "../layouts/Base.astro";
+import PageIntro from "../components/PageIntro.astro";
+import { entries, pageContent, interfaceCopy } from "../lib/cms";
+
+const [page, copy, results] = await Promise.all([
+	pageContent("running"), interfaceCopy(), entries("running_results", { limit: 100, orderBy: { date: "desc" } }),
+]);
+---
+
+<Base title={page?.title || copy.runningResults || "Race Results"} description={page?.description}>
+	<main class="min-h-screen px-4 pb-16 pt-20 sm:px-6 sm:pt-28 lg:px-8">
+		<div class="container max-w-6xl space-y-10">
+			<PageIntro section={page?.section || "Running"} title={page?.title || "Race Results"} description={page?.description} body={page?.body} />
+			{page?.hero_image && <figure class="running-hero"><Image image={page.hero_image} alt={page.hero_image.alt || page.title} class="running-hero-image" /><span class="running-hero-shade" aria-hidden="true"></span></figure>}
+			<section aria-label={copy.runningTimeLabel || copy.runningResults || "Running times"} class="grid gap-5 md:grid-cols-2">
+				{results.map((result) => <article class="section-shell relative overflow-hidden p-5 sm:p-7">
+					<div class="relative space-y-8"><p class="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">{result.data.distance}</p><p class="font-mono text-5xl font-bold tracking-tight text-[var(--ink)] sm:text-6xl" aria-label={`${result.data.distance}: ${result.data.time}`}>{result.data.time}</p><div class="space-y-3 border-t border-[var(--line)] pt-4"><p class="font-semibold text-[var(--ink)]">{result.data.event}</p><div class="text-sm text-[var(--muted)]">{result.data.date && <time datetime={new Date(result.data.date).toISOString()}>{new Date(result.data.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" })}</time>}</div></div></div>
+				</article>)}
+			</section>
+		</div>
+	</main>
+</Base>
+
+<style>
+	.running-hero { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 1.25rem; background: var(--sand-2); isolation: isolate; }
+	.running-hero-image { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 48%; }
+	.running-hero-shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(10,18,30,.03) 45%, rgba(10,18,30,.24)), linear-gradient(110deg, rgba(10,18,30,.12), transparent 48%); }
+	@media (min-width: 768px) { .running-hero { aspect-ratio: 2.35 / 1; border-radius: 1.5rem; } }
+</style>

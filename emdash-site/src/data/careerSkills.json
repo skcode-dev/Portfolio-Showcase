@@ -1,0 +1,93 @@
+[
+  {
+    "name": "Languages & Source Control",
+    "skills": [
+      { "name": "Python", "icon": "python", "color": "#3776AB" },
+      { "name": "TypeScript", "icon": "typescript", "color": "#3178C6" },
+      { "name": "Git", "icon": "git", "color": "#F05032" },
+      { "name": "GitHub", "icon": "github", "color": "#24292F" }
+    ]
+  },
+  {
+    "name": "Frontend & UI",
+    "skills": [
+      { "name": "React", "icon": "react", "color": "#61DAFB" },
+      { "name": "Next.js", "icon": "nextdotjs", "color": "#111827" },
+      { "name": "MUI", "icon": "mui", "color": "#007FFF" }
+    ]
+  },
+  {
+    "name": "Maps & 3D",
+    "skills": [
+      { "name": "MapTiler", "icon": "maptiler", "color": "#2F80ED" },
+      { "name": "MapLibre", "icon": "maplibre", "color": "#396CB2" },
+      { "name": "Three.js", "icon": "threedotjs", "color": "#111827" }
+    ]
+  },
+  {
+    "name": "Backend & API",
+    "skills": [
+      { "name": "FastAPI", "icon": "fastapi", "color": "#009688" },
+      { "name": "OpenAPI", "icon": "openapiinitiative", "color": "#6BA539" },
+      { "name": "Postman", "icon": "postman", "color": "#FF6C37" }
+    ]
+  },
+  {
+    "name": "Build & Development Workflow",
+    "skills": [
+      { "name": "npm", "icon": "npm", "color": "#CB3837" },
+      { "name": "pnpm", "icon": "pnpm", "color": "#F69220" },
+      { "name": "Turborepo", "icon": "turborepo", "color": "#111827" },
+      { "name": "GitHub Actions", "icon": "githubactions", "color": "#2088FF" },
+      { "name": "Vite", "icon": "vite", "color": "#646CFF" },
+      { "name": "Rsbuild", "mark": "RS", "color": "#7C3AED" }
+    ]
+  },
+  {
+    "name": "Code Quality & Testing",
+    "skills": [
+      { "name": "ESLint", "icon": "eslint", "color": "#4B32C3" },
+      { "name": "Prettier", "icon": "prettier", "color": "#F7B93E" },
+      { "name": "Husky", "mark": "H", "color": "#805B42" },
+      { "name": "Lefthook", "icon": "lefthook", "color": "#E4572E" },
+      { "name": "Ruff", "icon": "ruff", "color": "#D7FF64" },
+      { "name": "Knip", "icon": "knip", "color": "#F28C28" },
+      { "name": "Vitest", "icon": "vitest", "color": "#6E9F18" },
+      { "name": "Pytest", "icon": "pytest", "color": "#0A9EDC" },
+      { "name": "Jest", "icon": "jest", "color": "#C21325" },
+      { "name": "Playwright", "mark": "PW", "color": "#2EAD33" }
+    ]
+  },
+  {
+    "name": "Infrastructure, Security & Observability",
+    "skills": [
+      { "name": "Docker", "icon": "docker", "color": "#2496ED" },
+      { "name": "Kubernetes", "icon": "kubernetes", "color": "#326CE5" },
+      { "name": "K9s", "mark": "K9", "color": "#326CE5" },
+      { "name": "Keycloak", "icon": "keycloak", "color": "#4D4D4D" },
+      { "name": "Vault", "icon": "vault", "color": "#FFEC6E" },
+      { "name": "Wiz", "mark": "W", "color": "#5A5DF0" },
+      { "name": "Black Duck", "mark": "BD", "color": "#272727" },
+      { "name": "New Relic", "icon": "newrelic", "color": "#1CE783" },
+      { "name": "Grafana", "icon": "grafana", "color": "#F46800" }
+    ]
+  },
+  {
+    "name": "Data Platforms",
+    "skills": [
+      { "name": "Kafka", "icon": "apachekafka", "color": "#231F20" },
+      { "name": "Databricks", "icon": "databricks", "color": "#FF3621" }
+    ]
+  },
+  {
+    "name": "AI Tools",
+    "skills": [
+      { "name": "Cline", "icon": "cline", "color": "#6B4EFF" },
+      { "name": "GitHub Copilot", "icon": "githubcopilot", "color": "#111827" },
+      { "name": "Gemini", "icon": "googlegemini", "color": "#4285F4" },
+      { "name": "NotebookLM", "icon": "notebooklm", "color": "#7B61FF" },
+      { "name": "Claude", "icon": "claude", "color": "#C15F3C" },
+      { "name": "Codex", "icon": "code", "color": "#4258FF" }
+    ]
+  }
+]
